@@ -1,4 +1,6 @@
-package com.elite.brainless.Model;
+package com.elite.brainless.Model.Entity;
+
+import com.elite.brainless.Model.Enum.TipoUsuario;
 
 import jakarta.persistence.Column;
 

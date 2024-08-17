@@ -1,4 +1,4 @@
-package com.elite.brainless.Model;
+package com.elite.brainless.Model.Entity;
 
 import java.util.UUID;
 
@@ -7,12 +7,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-public class Usuario {
+@Table(name = "table_alunos")
+public class Aluno extends Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,30 +26,14 @@ public class Usuario {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String senha;
-
-    public Usuario() {
+    public Aluno() {
     }
 
-    public Usuario(String cpf, String nome) {
-        this.cpf = cpf;
-        this.nome = nome;
-    }
-
-    public Usuario(String cpf, String nome, String email, String senha) {
-        this.cpf = cpf;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-    }
-
-    public Usuario(UUID id, String cpf, String nome, String email, String senha) {
+    public Aluno(UUID id, String cpf, String nome, String email) {
         this.id = id;
         this.cpf = cpf;
         this.nome = nome;
         this.email = email;
-        this.senha = senha;
     }
 
     // Getters e Setters
@@ -79,18 +62,11 @@ public class Usuario {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
 }
