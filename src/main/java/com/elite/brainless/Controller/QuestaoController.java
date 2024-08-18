@@ -1,12 +1,11 @@
 package com.elite.brainless.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+// import org.springframework.beans.factory.annotation.Autowired;
 
-import com.elite.brainless.Service.Questao.QuestaoService;
+// import com.elite.brainless.Service.Questao.QuestaoService;
 
 public class QuestaoController {
-    @Autowired
-    private QuestaoService questaoService;
+    // @Autowired
+    // private QuestaoService questaoService;
 
 }
