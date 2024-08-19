@@ -17,32 +17,17 @@ const Login = () => {
       }
   
     }
-    
-   /* return (
-      <div className='container'>
-        <img src="src/assets/logo-brainless.png" alt="Logo" />
-          <form action="">
-            <input value={email} onChange={e => setEmail( e.target.value)} type="text" />
-            <input value={senha} onChange={e => setSenha( e.target.value)} type="text" />
-            <button onClick={handleSubmit}>Login</button>
-            <button onClick={() => navigate("/cadastro")}>Cadastro</button>
-          </form>
-      </div>*/
-
       return (
         <>
-        <div className='flex justify-center items-center h-screen bg-[#0056B3]'>
+        <div className='flex justify-center items-center h-screen bg-gradient-to-b from-[#007BFF] from-41% to-[#0056B3] to-90%'>
         <div className='w-96 p-2 shadow-lg bg-white rounded-md'>
           <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
               <img
-                alt="Your Company"
-                src="../src/assets/logo-brainless.png"
-                className="mx-auto h-10 w-auto"
+                alt="Brainless Logo"
+                src="../src/assets/logo-brainless-nome.png"
+                className="mx-auto h-20 w-auto"
               />
-              <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                Sign in to your account
-              </h2>
             </div>
     
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -92,15 +77,16 @@ const Login = () => {
                   <button
                     type="submit"
                     onClick={handleSubmit}
-                    className="flex w-full justify-center rounded-md bg-[#0056B3] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#007BFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="flex w-full justify-center rounded-md bg-[#0056B3] px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#007BFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     Entrar
                   </button>
+                  <hr className='mt-4' />
                   <button
                     onClick={() => navigate("/cadastro")}
-                    className="flex w-full mt-4 justify-center rounded-md bg-[#0056B3] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#007BFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="flex w-full mt-4 justify-center rounded-md bg-[#0056B3] px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#007BFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
-                    Cadastra-se
+                    Criar Conta
                   </button>
                 </div>
               </form>
@@ -111,7 +97,6 @@ const Login = () => {
         </>
       )
           
-    //)
 
 };
 
