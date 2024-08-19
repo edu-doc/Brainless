@@ -2,6 +2,8 @@ package com.elite.brainless.Controller;
 
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,10 +26,12 @@ public class CadastroController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public int saveUsuario(@RequestBody CadastroRequestDTO data){
+    public ResponseEntity<String> saveUsuario(@RequestBody CadastroRequestDTO data){
         Usuario usuario = new Usuario(data);
         repository.save(usuario);
-        return Response.SC_CREATED;
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                         .body("Usuário cadastrado com sucesso");
     }
     
 
