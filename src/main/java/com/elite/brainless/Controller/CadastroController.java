@@ -25,13 +25,17 @@ public class CadastroController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public ResponseEntity<String> saveUsuario(@RequestBody CadastroRequestDTO data){
+    public ResponseEntity<String> saveUsuario(@RequestBody CadastroRequestDTO data) {
         Usuario usuario = new Usuario(data);
+        // if (usuario.getNome().isEmpty() || usuario.getEmail().isEmpty() ||
+        // usuario.getSenha().isEmpty()) {
+        // return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        // .body("Preencha todos os campos");
+        // }
         repository.save(usuario);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                         .body("Usuário cadastrado com sucesso");
+                .body("Usuário cadastrado com sucesso");
     }
-    
 
 }
