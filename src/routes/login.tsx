@@ -7,16 +7,38 @@ const Login = () => {
     
     const [ email, setEmail ] = useState("");
     const [ senha, setSenha ] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState("");
     const navigate = useNavigate();
+
+    const isFormValid = () => email.trim() !== "" && senha.trim() !== "";
   
     const handleSubmit = async(e: React.FormEvent) => { 
     e.preventDefault();
-      const res = await api.post('login', { email , senha } )
-      if(res.status == 200 ) {
+    setLoading(true);
+    setMessage(""); // Limpa a mensagem anterior
+
+    try {
+      const res = await api.post('login', { email, senha });
+      if (res.status === 200) {
         navigate("/home");
+      } else {
+        setMessage("Falha ao realizar o login. Tente novamente.");
       }
-  
+    } catch (error: any) {
+      if (error.response) {
+        setMessage("Falha ao realizar o login. Tente novamente.");
+      } else if (error.request) {
+        setMessage("Sem resposta do servidor. Verifique sua conexão e tente novamente.");
+      } else {
+        setMessage("Erro ao conectar com o servidor. Tente novamente mais tarde.");
+      }
+    } finally {
+      setLoading(false);
     }
+  
+    };
+
       return (
         <>
         <div className='flex justify-center items-center h-screen bg-gradient-to-b from-[#007BFF] from-41% to-[#0056B3] to-90%'>
@@ -76,11 +98,16 @@ const Login = () => {
                 <div>
                   <button
                     type="submit"
-                    onClick={handleSubmit}
-                    className="flex w-full justify-center rounded-md bg-[#0056B3] px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#007BFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    disabled={!isFormValid() || loading}
+                    className={`flex w-full justify-center rounded-md px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm ${isFormValid() ? 'bg-[#0056B3] hover:bg-[#007BFF]' : 'bg-gray-400 cursor-not-allowed'}`}
                   >
-                    Entrar
+                    {loading ? "Carregando..." : "Entrar"}
                   </button>
+                  {message && (
+                    <div className="mt-4 p-3 border border-red-600 bg-red-100 text-red-600 rounded-md">
+                      <p>{message}</p>
+                    </div>
+                  )}
                   <hr className='mt-4' />
                   <button
                     onClick={() => navigate("/cadastro")}
