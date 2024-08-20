@@ -26,6 +26,7 @@ public class Questao {
     @Column(nullable = false)
     private int ano;
 
+    @ElementCollection
     @Column(nullable = false)
     private List<String> tema;
 
