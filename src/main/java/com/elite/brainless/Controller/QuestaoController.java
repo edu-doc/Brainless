@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elite.brainless.Model.Entity.Questao;
-import com.elite.brainless.Model.Repository.QuestaoRepository;
+import com.elite.brainless.Model.Service.QuestaoService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,13 +22,13 @@ import lombok.RequiredArgsConstructor;
 public class QuestaoController {
     
     @Autowired
-    private final QuestaoRepository repository;
+    private final QuestaoService service;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<String> login(@RequestBody Questao data) {
         
-        Optional<Questao> questaoOpt = this.repository.findByEnunciado(data.getEnunciado());
+        Optional<Questao> questaoOpt = this.service.findByEnunciado(data.getEnunciado());
 
         if (questaoOpt.isEmpty()) {
             return ResponseEntity.badRequest().build(); // Questao não encontrado

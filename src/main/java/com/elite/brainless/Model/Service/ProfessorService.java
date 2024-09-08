@@ -3,7 +3,6 @@ package com.elite.brainless.Model.Service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elite.brainless.Model.Entity.Professor;
@@ -15,8 +14,7 @@ import jakarta.validation.Valid;
 public class ProfessorService {
 
 	private final ProfessorRepository profRepository;
-
-	@Autowired
+    
     public ProfessorService(ProfessorRepository profRepo) {
         this.profRepository = profRepo;
     }

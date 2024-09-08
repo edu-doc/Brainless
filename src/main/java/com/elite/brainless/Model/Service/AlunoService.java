@@ -3,7 +3,6 @@ package com.elite.brainless.Model.Service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elite.brainless.Model.Entity.Aluno;
@@ -18,7 +17,6 @@ public class AlunoService {
 
 	private final AlunoRepository alunoRepository;
 
-	@Autowired
     public AlunoService(AlunoRepository alunoRepo) {
         this.alunoRepository = alunoRepo;
     }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elite.brainless.Model.Entity.Usuario;
-import com.elite.brainless.Model.Repository.UsuarioRepository;
+import com.elite.brainless.Model.Service.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,13 +22,13 @@ import lombok.RequiredArgsConstructor;
 public class LoginController {
 
     @Autowired
-    private final UsuarioRepository repository;
+    private final UsuarioService service;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<String> login(@RequestBody Usuario data) {
         
-        Optional<Usuario> usuarioOpt = this.repository.findByEmail(data.getEmail());
+        Optional<Usuario> usuarioOpt = this.service.findByEmail(data.getEmail());
 
         if (usuarioOpt.isEmpty()) {
             return ResponseEntity.badRequest().build(); // Usuario não encontrado

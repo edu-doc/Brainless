@@ -3,7 +3,6 @@ package com.elite.brainless.Model.Service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elite.brainless.Model.Entity.Usuario;
@@ -16,7 +15,6 @@ public class UsuarioService {
 
     private final UsuarioRepository usuRepository;
 
-	@Autowired
     public UsuarioService(UsuarioRepository usuRepo) {
         this.usuRepository = usuRepo;
     }
@@ -33,6 +31,10 @@ public class UsuarioService {
 
     public Optional<Usuario> findById(Long id) {
         return usuRepository.findById(id);
+    }
+
+    public Optional<Usuario> findByEmail(String email) {
+        return usuRepository.findByEmail(email);
     }
 
     public Usuario createUsuario(@Valid Usuario usu) {

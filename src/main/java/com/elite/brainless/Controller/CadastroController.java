@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elite.brainless.Model.Entity.Usuario;
-import com.elite.brainless.Model.Repository.UsuarioRepository;
+import com.elite.brainless.Model.Service.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,14 +20,14 @@ import lombok.RequiredArgsConstructor;
 public class CadastroController {
 
     @Autowired
-    private final UsuarioRepository repository;
+    private final UsuarioService service;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<String> saveUsuario(@RequestBody Usuario data) {
         Usuario usuario = new Usuario(data.getCpf(), data.getEmail(), data.getId(), data.getNome(), data.getSenha());
         
-        repository.save(usuario);
+        service.createUsuario(usuario);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Usuário cadastrado com sucesso");

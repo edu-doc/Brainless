@@ -3,7 +3,6 @@ package com.elite.brainless.Model.Service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elite.brainless.Model.Entity.Questao;
@@ -17,7 +16,6 @@ public class QuestaoService {
 
     private final QuestaoRepository questRepository;
 
-	@Autowired
     public QuestaoService(QuestaoRepository questRepo) {
         this.questRepository = questRepo;
     }
@@ -34,6 +32,10 @@ public class QuestaoService {
 
     public Optional<Questao> findById(Long id) {
         return questRepository.findById(id);
+    }
+
+    public Optional<Questao> findByEnunciado(String enunciado) {
+        return questRepository.findByEnunciado(enunciado);
     }
 
     public Questao createQuestao(@Valid Questao quest) {

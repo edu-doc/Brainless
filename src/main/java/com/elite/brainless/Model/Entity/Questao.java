@@ -47,9 +47,6 @@ public class Questao {
     @Column(nullable = false)
     private String resposta;
 
-    public Questao() {
-    }
-
     @Override
     public int hashCode() {
         int hash = 5;
