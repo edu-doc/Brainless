@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elite.brainless.Model.Entity.Usuario;
-import com.elite.brainless.Model.dto.LoginRequestDTO;
-import com.elite.brainless.Model.dto.LoginResponseDTO;
-import com.elite.brainless.Repository.UsuarioRepository;
+import com.elite.brainless.Model.Repository.UsuarioRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,23 +26,21 @@ public class LoginController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO data) {
+    public ResponseEntity<String> login(@RequestBody Usuario data) {
         
-        Optional<Usuario> usuarioOpt = this.repository.findByEmail(data.email());
+        Optional<Usuario> usuarioOpt = this.repository.findByEmail(data.getEmail());
 
         if (usuarioOpt.isEmpty()) {
             return ResponseEntity.badRequest().build(); // Usuario não encontrado
-      
         }
 
         Usuario usuario = usuarioOpt.get();
 
-        if(usuario.getSenha().equals(data.senha())){
-            return ResponseEntity.ok(new LoginResponseDTO(usuario.getNome()));
+        if(usuario.getSenha().equals(data.getSenha())){
+            return ResponseEntity.ok(new Usuario().getNome());
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-    
 
 }

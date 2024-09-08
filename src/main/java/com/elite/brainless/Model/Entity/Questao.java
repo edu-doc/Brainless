@@ -1,7 +1,7 @@
 package com.elite.brainless.Model.Entity;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -10,14 +10,22 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "table_questoes")
 public class Questao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @ElementCollection
     @Column(nullable = false)
@@ -42,63 +50,41 @@ public class Questao {
     public Questao() {
     }
 
-    public Questao(UUID id, int ano, List<String> tema, float aproveitamento, String enunciado, String resposta,
-            List<String> alternativas) {
-        this.id = id;
-        this.ano = ano;
-        this.tema = tema;
-        this.aproveitamento = aproveitamento;
-        this.enunciado = enunciado;
-        this.resposta = resposta;
-        this.alternativas = alternativas;
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.id);
+        return hash;
     }
 
-    // Getters e Setters
-    public UUID getId() {
-        return id;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Questao other = (Questao) obj;
+        return Objects.equals(this.id, other.id);
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Questao{");
+        sb.append("id=").append(id);
+        sb.append(", alternativas=").append(alternativas);
+        sb.append(", ano=").append(ano);
+        sb.append(", tema=").append(tema);
+        sb.append(", aproveitamento=").append(aproveitamento);
+        sb.append(", enunciado=").append(enunciado);
+        sb.append(", resposta=").append(resposta);
+        sb.append('}');
+        return sb.toString();
     }
 
-    public int getAno() {
-        return ano;
-    }
-
-    public void setAno(int ano) {
-        this.ano = ano;
-    }
-
-    public List<String> getTema() {
-        return tema;
-    }
-
-    public void setTema(List<String> tema) {
-        this.tema = tema;
-    }
-
-    public float getAproveitamento() {
-        return aproveitamento;
-    }
-
-    public void setAproveitamento(float aproveitamento) {
-        this.aproveitamento = aproveitamento;
-    }
-
-    public String getEnunciado() {
-        return enunciado;
-    }
-
-    public void setEnunciado(String enunciado) {
-        this.enunciado = enunciado;
-    }
-
-    public String getResposta() {
-        return resposta;
-    }
-
-    public void setResposta(String resposta) {
-        this.resposta = resposta;
-    }
 }

@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elite.brainless.Model.Entity.Usuario;
-import com.elite.brainless.Model.dto.CadastroRequestDTO;
-import com.elite.brainless.Repository.UsuarioRepository;
+import com.elite.brainless.Model.Repository.UsuarioRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,13 +24,9 @@ public class CadastroController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public ResponseEntity<String> saveUsuario(@RequestBody CadastroRequestDTO data) {
-        Usuario usuario = new Usuario(data);
-        // if (usuario.getNome().isEmpty() || usuario.getEmail().isEmpty() ||
-        // usuario.getSenha().isEmpty()) {
-        // return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        // .body("Preencha todos os campos");
-        // }
+    public ResponseEntity<String> saveUsuario(@RequestBody Usuario data) {
+        Usuario usuario = new Usuario(data.getCpf(), data.getEmail(), data.getId(), data.getNome(), data.getSenha());
+        
         repository.save(usuario);
 
         return ResponseEntity.status(HttpStatus.CREATED)

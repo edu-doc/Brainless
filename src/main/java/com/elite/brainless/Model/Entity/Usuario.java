@@ -1,9 +1,5 @@
 package com.elite.brainless.Model.Entity;
 
-import java.util.UUID;
-
-import com.elite.brainless.Model.dto.CadastroRequestDTO;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,7 +24,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String cpf;
@@ -42,11 +38,25 @@ public class Usuario {
     @Column(nullable = false)
     private String senha;
 
-
-    public Usuario(CadastroRequestDTO data){
-        this.cpf = data.cpf();
-        this.nome = data.nome();
-        this.email = data.email();
-        this.senha = data.senha();
+    public Usuario(String cpf, String email, Long id, String nome, String senha) {
+        this.cpf = cpf;
+        this.email = email;
+        this.id = id;
+        this.nome = nome;
+        this.senha = senha;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Usuario{");
+        sb.append("id=").append(id);
+        sb.append(", cpf=").append(cpf);
+        sb.append(", nome=").append(nome);
+        sb.append(", email=").append(email);
+        sb.append(", senha=").append(senha);
+        sb.append('}');
+        return sb.toString();
+    }
+
 }

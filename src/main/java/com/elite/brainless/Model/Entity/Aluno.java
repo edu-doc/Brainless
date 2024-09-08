@@ -1,21 +1,27 @@
 package com.elite.brainless.Model.Entity;
 
-import java.util.UUID;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "table_alunos")
 public class Aluno extends Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String cpf;
@@ -25,49 +31,6 @@ public class Aluno extends Usuario {
 
     @Column(nullable = false, unique = true)
     private String email;
-
-    public Aluno() {
-    }
-
-    public Aluno(UUID id, String cpf, String nome, String email) {
-        this.id = id;
-        this.cpf = cpf;
-        this.nome = nome;
-        this.email = email;
-    }
-
-    // Getters e Setters
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     @Override
     public int hashCode() {
@@ -96,9 +59,14 @@ public class Aluno extends Usuario {
 
     @Override
     public String toString() {
-        return "Aluno [id=" + id + ", cpf=" + cpf + ", nome=" + nome + ", email=" + email + "]";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Aluno{");
+        sb.append("id=").append(id);
+        sb.append(", cpf=").append(cpf);
+        sb.append(", nome=").append(nome);
+        sb.append(", email=").append(email);
+        sb.append('}');
+        return sb.toString();
     }
-
-    
 
 }
