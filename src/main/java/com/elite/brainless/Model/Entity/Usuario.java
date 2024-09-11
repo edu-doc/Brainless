@@ -46,6 +46,14 @@ public class Usuario {
         this.senha = senha;
     }
 
+    // criado para fins de teste, depois pode apagar
+    public Usuario(String cpf, String email, String nome, String senha) {
+        this.cpf = cpf;
+        this.email = email;
+        this.nome = nome;
+        this.senha = senha;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

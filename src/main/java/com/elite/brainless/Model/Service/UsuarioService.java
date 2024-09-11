@@ -42,13 +42,15 @@ public class UsuarioService {
         // Verifica se já existe um usuario com o mesmo CPF
         Optional<Usuario> existingUsu = usuRepository.findByCpf(usu.getCpf());
 
+        // Se já existe um usuario com o mesmo CPF, lança uma exceção ou realiza
+        // outra ação adequada
+
         if (existingUsu.isPresent()) {
-            // Se já existe um usuario com o mesmo CPF, lança uma exceção ou realiza
-            // outra ação adequada
             throw new RuntimeException("Já existe um usuario com o mesmo CPF");
         }
 
-        // Se não existir, salva o novo professor
+        // Se não existir, salva o novo usuario
+        System.out.println("Cadastro realizado com sucesso.");
         return usuRepository.save(usu);
     }
 
