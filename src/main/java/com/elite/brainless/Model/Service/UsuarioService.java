@@ -37,7 +37,12 @@ public class UsuarioService {
         return usuRepository.findByEmail(email);
     }
 
-    public Usuario createUsuario(@Valid Usuario usu) {
+    public Usuario createUsuario(Usuario usu) {
+
+        // Verifica se um dos campos está vazio
+        if(usu.getCpf().isEmpty() || usu.getEmail().isEmpty() || usu.getNome().isEmpty() || usu.getSenha().isEmpty()){
+            throw new RuntimeException("Um dos campos está vazio!");
+        }
 
         // Verifica se já existe um usuario com o mesmo CPF
         Optional<Usuario> existingUsu = usuRepository.findByCpf(usu.getCpf());

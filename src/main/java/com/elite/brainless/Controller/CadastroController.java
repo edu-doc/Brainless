@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.elite.brainless.Model.Entity.Usuario;
 import com.elite.brainless.Model.Service.UsuarioService;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,7 +26,7 @@ public class CadastroController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public ResponseEntity<String> saveUsuario(@RequestBody Usuario data) {
+    public ResponseEntity<String> saveUsuario(@RequestBody @Valid Usuario data) {
         Usuario usuario = new Usuario(data.getCpf(), data.getEmail(), data.getId(), data.getNome(), data.getSenha());
         
         service.createUsuario(usuario);
