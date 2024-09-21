@@ -3,7 +3,6 @@ import { api } from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
 
 import NavBar from "../components/NavBar";
-import { Navbar } from 'flowbite-react';
 
 
 const CadastrarQuestao = () => {
@@ -17,7 +16,10 @@ const CadastrarQuestao = () => {
     const [ alternativaE, setAltE] = useState("");
     const [ visibilidade, setVisibilidade] = useState("");
     const [ resposta, setResposta ] = useState("");
+    const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+  
   
     const handleSubmit = async(e: React.FormEvent) => { 
       e.preventDefault();
@@ -25,11 +27,12 @@ const CadastrarQuestao = () => {
       setMessage("");
 
       try {
-        const res = await api.post('cadastro', { email, nome, senha, cpf });
+        const alternativas = [alternativaA, alternativaB, alternativaC, alternativaD, alternativaE]
+        const res = await api.post('cadastrar-questao', { tema, visibilidade, enunciado, alternativas, resposta });
     
         if (res.status === 201) {
-          setMessage("Cadastro realizado com sucesso!");
-          navigate("/");
+          setMessage("Questão cadastrada com sucesso!");
+          navigate("/home");
         } else {
           setMessage(res.data.message || "Falha ao realizar o cadastro. Tente novamente.");
         }
@@ -136,7 +139,7 @@ const CadastrarQuestao = () => {
               {/* Alternativa C e D */}
               <div className="grid grid-cols-2 gap-10 row-span-1">
                 <div>
-                  <label className="block text-black text-xl font-bold mb-2" htmlFor="altA">
+                  <label className="block text-black text-xl font-bold mb-2" htmlFor="altC">
                     Alternativa C:
                   </label>
                   <textarea
@@ -149,7 +152,7 @@ const CadastrarQuestao = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-black text-xl font-bold mb-2" htmlFor="altB">
+                  <label className="block text-black text-xl font-bold mb-2" htmlFor="altD">
                     Alternativa D:
                   </label>
                   <textarea
@@ -179,7 +182,7 @@ const CadastrarQuestao = () => {
                 </div>
 
                 <div className='w-1/2'>
-                  <label className="block text-black text-xl font-bold mb-2" htmlFor="Resposta">
+                  <label className="block text-black text-xl font-bold mb-2" htmlFor="resposta">
                     Resposta:
                   </label>
                   <select
