@@ -1,12 +1,9 @@
 package com.elite.brainless.Controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,34 +13,26 @@ import org.springframework.web.bind.annotation.RestController;
 import com.elite.brainless.Model.Entity.Questao;
 import com.elite.brainless.Model.Service.QuestaoService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-
 @RestController
-@RequestMapping("/professor")
+@RequestMapping("/questao")
 @RequiredArgsConstructor
-public class HomeProfessorController {
-    
+public class QuestaoController {
+
     @Autowired
     private final QuestaoService service;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public ResponseEntity<String> questaoSave(@RequestBody Questao data) {
-        
+    public ResponseEntity<String> saveQuestao(@RequestBody @Valid Questao data) {
         Questao questao = new Questao(data.getAlternativas(), data.getEnunciado(), data.getId(), data.getResposta(), data.getTema());
         
         service.createQuestao(questao);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Questão cadastrada com sucesso");
-    }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping
-    public List<Questao> questoes(){
-        List<Questao> questList = service.findAll().stream().map(Questao::new).toList();
-        return questList;
+                .body("Usuário cadastrado com sucesso");
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -58,7 +47,5 @@ public class HomeProfessorController {
                 .body("Questão atualizada com sucesso");
 
     }
-
-
 
 }

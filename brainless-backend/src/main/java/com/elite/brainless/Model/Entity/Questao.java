@@ -50,7 +50,7 @@ public class Questao {
     @Column(nullable = false)
     private String resposta;
 
-    public Questao(List<String> alternativas, String enunciado, Long id, String resposta, List<String> tema, int ano) {
+    public Questao(List<String> alternativas, String enunciado, Long id, String resposta, List<String> tema) {
         this.alternativas = alternativas;
         this.enunciado = enunciado;
         this.id = id;

@@ -14,9 +14,9 @@ import com.elite.brainless.Model.Service.QuestaoService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/homealuno")
+@RequestMapping("/aluno")
 @RequiredArgsConstructor
-public class homeAlunoController {
+public class HomeAlunoController {
     
     @Autowired
     private final QuestaoService service;

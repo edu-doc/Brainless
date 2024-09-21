@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import com.elite.brainless.Model.Entity.Usuario;
 import com.elite.brainless.Model.Repository.UsuarioRepository;
 
-import jakarta.validation.Valid;
-
 @Service
 public class UsuarioService {
 
