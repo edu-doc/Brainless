@@ -8,6 +8,7 @@ import './index.css'
 import Login from './routes/login';
 import Cadastro from './routes/cadastro';
 import Home from './routes/home';
+import CadastrarQuestao from './routes/cadastrar-questao';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
     path: "/home",
     element: <Home />
   },
+  {
+    path: "/cadastrar-questao",
+    element: <CadastrarQuestao />
+  }
 ]);
 
 createRoot(document.getElementById('root')!).render(
