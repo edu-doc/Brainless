@@ -13,7 +13,6 @@ import com.elite.brainless.Model.Entity.Usuario;
 import com.elite.brainless.Model.Service.UsuarioService;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 
 @RestController
