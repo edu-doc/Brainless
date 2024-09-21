@@ -202,7 +202,9 @@ const CadastrarQuestao = () => {
                {/* Cancelar e Submit */}
                <div className="flex justify-between">
                 <div className='w-1/4 justify-end'>
-                  <button className="bg-white text-black font-anonymous-pro font-bold p-5 border border-black rounded-lg text-xl hover:bg-gray-100 w-full">
+                  <button className="bg-white text-black font-anonymous-pro font-bold p-5 border border-black rounded-lg text-xl hover:bg-gray-100 w-full"
+                          onClick={() => navigate("/home")}
+>
                     CANCELAR
                   </button>
                 </div>

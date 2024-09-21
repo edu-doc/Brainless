@@ -4,12 +4,12 @@ const Home = () => {
     
     return (
             <>
-                <div className="w-full h-full">
+            <div className="flex flex-col h-full">
                 <NavBar />
-                <div className="bg-blue-500 w-full h-full flex justify-start">
+                <div className="bg-blue-500 flex flex-1 justify-around">
                     
                     {/* Menu Lateral */}
-                    <div className="w-2/12 bg-gray-800 text-white p-4 rounded-lg shadow-lg">
+                    <div className=" w-2/12 m-4 bg-gray-800 text-white p-4 rounded-lg shadow-lg">
                         <h2 className="text-xl font-semibold mb-4">Menu</h2>
                         <ul>
                             <li className="mb-2"><a href="/item1">Suas Estatísticas</a></li>
@@ -17,13 +17,13 @@ const Home = () => {
                         </ul>
                     </div>
 
-                    <div className="w-full h-full p-4"> {/* Ajuste ml-72 para a largura do menu e mt-16 para a altura da barra de navegação */}
-                        <main className="flex-1 bg-white rounded-lg shadow-lg p-6">
+                    <div className="p-4 w-9/12"> {/* Ajuste ml-72 para a largura do menu e mt-16 para a altura da barra de navegação */}
+                        <main className="flex-1 bg-white h-full rounded-lg shadow-lg p-6">
                             <h1 className="text-2xl font-bold mb-4">Tabela de Dados</h1>
                                 
                             {/* Tabela */}
                             <div className="overflow-x-auto rounded-md">
-                                <table className="table-auto w-full rounded-md border-1 border-black hover:table-auto">
+                                <table className="table-auto w-full h-full rounded-md border-1 border-black hover:table-auto">
                                     <thead className="bg-blue-500 border-solid border-1 border-black">
                                         <tr>
                                             <th className="px-4 py-2">Enunciado</th>
