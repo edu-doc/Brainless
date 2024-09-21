@@ -12,6 +12,7 @@
   "dependencies": {
     "@tailwindcss/forms": "^0.5.7",
     "axios": "^1.7.4",
+    "brainless-front": "file:",
     "flowbite-react": "^0.10.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
