@@ -54,6 +54,7 @@ public class homeProfessorController {
         return questList;
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping
     public ResponseEntity<String> updateQuest(@RequestBody Questao data) {
         
