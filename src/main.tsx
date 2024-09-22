@@ -7,8 +7,9 @@ import {
 import './index.css'
 import Login from './routes/login';
 import Cadastro from './routes/cadastro';
-import Home from './routes/home';
 import CadastrarQuestao from './routes/cadastrar-questao';
+import HomeProfessor from './routes/home-professor';
+import HomeAluno from './routes/home-aluno';
 
 const router = createBrowserRouter([
   {
@@ -20,8 +21,12 @@ const router = createBrowserRouter([
     element: <Cadastro />
   },
   {
-    path: "/home",
-    element: <Home />
+    path: "/home-professor",
+    element: <HomeProfessor />
+  },
+  {
+    path: "/home-aluno",
+    element: <HomeAluno />
   },
   {
     path: "/cadastrar-questao",
