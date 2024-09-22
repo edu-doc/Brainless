@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elite.brainless.Model.Entity.Questao;
+import com.elite.brainless.Model.Entity.QuestaoResponse;
 import com.elite.brainless.Model.Service.QuestaoService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class HomeProfessorController {
     @PostMapping
     public ResponseEntity<String> questaoSave(@RequestBody Questao data) {
         
-        Questao questao = new Questao(data.getAlternativas(), data.getEnunciado(), data.getId(), data.getResposta(), data.getTema());
+        Questao questao = new Questao(data.getAlternativas(), data.getEnunciado(), data.getResposta(), data.getTema());
         
         service.createQuestao(questao);
 
@@ -41,8 +42,8 @@ public class HomeProfessorController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
-    public List<Questao> questoes(){
-        List<Questao> questList = service.findAll().stream().map(Questao::new).toList();
+    public List<QuestaoResponse> questoes(){
+        List<QuestaoResponse> questList = service.findAll().stream().map(QuestaoResponse::new).toList();
         return questList;
     }
 
@@ -50,7 +51,7 @@ public class HomeProfessorController {
     @PutMapping
     public ResponseEntity<String> updateQuest(@RequestBody Questao data) {
         
-        Questao questao = new Questao(data.getAlternativas(), data.getEnunciado(), data.getId(), data.getResposta(), data.getTema());
+        Questao questao = new Questao(data.getAlternativas(), data.getEnunciado(), data.getResposta(), data.getTema());
         
         service.updateQuestao(questao.getId(), questao);
 

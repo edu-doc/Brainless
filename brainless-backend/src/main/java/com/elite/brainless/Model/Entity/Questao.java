@@ -24,7 +24,6 @@ import lombok.Setter;
 @Table(name = "table_questoes")
 public class Questao {
 
-    LocalDate anoAtual = LocalDate.now();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,12 +49,12 @@ public class Questao {
     @Column(nullable = false)
     private String resposta;
 
-    public Questao(List<String> alternativas, String enunciado, Long id, String resposta, List<String> tema) {
+    public Questao(List<String> alternativas, String enunciado, String resposta, List<String> tema) {
         this.alternativas = alternativas;
         this.enunciado = enunciado;
-        this.id = id;
         this.resposta = resposta;
         this.tema = tema;
+        LocalDate anoAtual = LocalDate.now();
         this.ano = anoAtual.getYear();
     }
 
