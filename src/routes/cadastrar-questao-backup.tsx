@@ -3,11 +3,12 @@ import { api } from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
 
 import NavBar from "../components/NavBar";
+import { Navbar } from 'flowbite-react';
 
 
 const CadastrarQuestao = () => {
 
-    const [ temas, setTema ] = useState("");
+    const [ tema, setTema ] = useState("");
     const [ enunciado, setEnunciado ] = useState("");
     const [ alternativaA, setAltA ] = useState("");
     const [ alternativaB, setAltB ] = useState("");
@@ -16,10 +17,7 @@ const CadastrarQuestao = () => {
     const [ alternativaE, setAltE] = useState("");
     const [ visibilidade, setVisibilidade] = useState("");
     const [ resposta, setResposta ] = useState("");
-    const [message, setMessage] = useState("");
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-  
   
     const handleSubmit = async(e: React.FormEvent) => { 
       e.preventDefault();
@@ -27,13 +25,11 @@ const CadastrarQuestao = () => {
       setMessage("");
 
       try {
-        const alternativas = [alternativaA, alternativaB, alternativaC, alternativaD, alternativaE];
-        const tema = [temas];
-        const res = await api.post('questao', { alternativas, enunciado , resposta , tema });
+        const res = await api.post('cadastro', { email, nome, senha, cpf });
     
         if (res.status === 201) {
-          setMessage("Questão cadastrada com sucesso!");
-          navigate("/home");
+          setMessage("Cadastro realizado com sucesso!");
+          navigate("/");
         } else {
           setMessage(res.data.message || "Falha ao realizar o cadastro. Tente novamente.");
         }
@@ -68,7 +64,7 @@ const CadastrarQuestao = () => {
                     id="tema"
                     name="tema"
                     className="w-full p-3 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={temas}
+                    value={tema}
                     onChange={e => setTema(e.target.value)}
                     required
                     />
@@ -140,7 +136,7 @@ const CadastrarQuestao = () => {
               {/* Alternativa C e D */}
               <div className="grid grid-cols-2 gap-10 row-span-1">
                 <div>
-                  <label className="block text-black text-xl font-bold mb-2" htmlFor="altC">
+                  <label className="block text-black text-xl font-bold mb-2" htmlFor="altA">
                     Alternativa C:
                   </label>
                   <textarea
@@ -153,7 +149,7 @@ const CadastrarQuestao = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-black text-xl font-bold mb-2" htmlFor="altD">
+                  <label className="block text-black text-xl font-bold mb-2" htmlFor="altB">
                     Alternativa D:
                   </label>
                   <textarea
@@ -183,7 +179,7 @@ const CadastrarQuestao = () => {
                 </div>
 
                 <div className='w-1/2'>
-                  <label className="block text-black text-xl font-bold mb-2" htmlFor="resposta">
+                  <label className="block text-black text-xl font-bold mb-2" htmlFor="Resposta">
                     Resposta:
                   </label>
                   <select
