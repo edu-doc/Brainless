@@ -45,10 +45,9 @@ public @Valid class Usuario {
     @Column(nullable = false)
     private Boolean isProfessor;
 
-    public Usuario(String cpf,String email,Long id,String nome,String senha, Boolean isProfessor) {
+    public Usuario(String cpf,String email,String nome,String senha,Boolean isProfessor) {
         this.cpf = cpf;
         this.email = email;
-        this.id = id;
         this.nome = nome;
         this.senha = senha;
         this.isProfessor = isProfessor;
@@ -63,6 +62,7 @@ public @Valid class Usuario {
         sb.append(", nome=").append(nome);
         sb.append(", email=").append(email);
         sb.append(", senha=").append(senha);
+        sb.append(", isProfessor=").append(isProfessor);
         sb.append('}');
         return sb.toString();
     }
