@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.elite.brainless.Model.Entity.Questao;
+import com.elite.brainless.Model.Entity.QuestaoResponse;
 import com.elite.brainless.Model.Service.QuestaoService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,8 @@ public class HomeAlunoController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
-    public List<Questao> questoes(){
-        List<Questao> questList = service.findAll().stream().map(Questao::new).toList();
+    public List<QuestaoResponse> questoes(){
+        List<QuestaoResponse> questList = service.findAll().stream().map(QuestaoResponse::new).toList();
         return questList;
     }
 
