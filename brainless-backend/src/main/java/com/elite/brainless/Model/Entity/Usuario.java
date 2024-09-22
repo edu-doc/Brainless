@@ -42,12 +42,16 @@ public @Valid class Usuario {
     @Column(nullable = false)
     private String senha;
 
-    public Usuario(String cpf,String email,Long id,String nome,String senha) {
+    @Column(nullable = false)
+    private Boolean isProfessor;
+
+    public Usuario(String cpf,String email,Long id,String nome,String senha, Boolean isProfessor) {
         this.cpf = cpf;
         this.email = email;
         this.id = id;
         this.nome = nome;
         this.senha = senha;
+        this.isProfessor = isProfessor;
     }
 
     @Override

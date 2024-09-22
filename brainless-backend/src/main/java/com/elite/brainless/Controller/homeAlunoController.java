@@ -28,6 +28,4 @@ public class HomeAlunoController {
         return questList;
     }
 
-
-
 }

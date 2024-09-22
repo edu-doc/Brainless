@@ -37,7 +37,7 @@ public class LoginController {
         Usuario usuario = usuarioOpt.get();
 
         if(usuario.getSenha().equals(data.getSenha())){
-            return ResponseEntity.ok("Tudo ok");
+            return ResponseEntity.ok("Login efetuado com sucesso");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

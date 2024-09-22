@@ -26,7 +26,7 @@ public class CadastroController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<String> saveUsuario(@RequestBody @Valid Usuario data) {
-        Usuario usuario = new Usuario(data.getCpf(), data.getEmail(), data.getId(), data.getNome(), data.getSenha());
+        Usuario usuario = new Usuario(data.getCpf(), data.getEmail(), data.getId(), data.getNome(), data.getSenha(), data.getIsProfessor());
         
         service.createUsuario(usuario);
 
