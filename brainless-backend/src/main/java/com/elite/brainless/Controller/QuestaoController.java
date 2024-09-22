@@ -32,7 +32,7 @@ public class QuestaoController {
         service.createQuestao(questao);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Usuário cadastrado com sucesso");
+                .body("Questão cadastrada com sucesso");
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")

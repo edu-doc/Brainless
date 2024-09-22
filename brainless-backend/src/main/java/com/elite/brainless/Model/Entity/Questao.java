@@ -58,15 +58,6 @@ public class Questao {
         this.ano = anoAtual.getYear();
     }
 
-    public Questao(Questao questao) {
-        this.alternativas = getAlternativas();
-        this.enunciado = getEnunciado();
-        this.id = getId();
-        this.resposta = getResposta();
-        this.tema = getTema();
-        this.ano = getAno();
-    }
-
     @Override
     public int hashCode() {
         int hash = 5;
