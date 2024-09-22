@@ -9,6 +9,7 @@ const Cadastro = () => {
     const [ nome, setNome ] = useState("");
     const [ senha, setSenha ] = useState("");
     const [ cpf, setCpf ] = useState("");
+    const [ isProfessor, setIsProfessor ] = useState("")
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Cadastro = () => {
       setMessage("");
 
       try {
-        const res = await api.post('cadastro', { email, nome, senha, cpf });
+        const res = await api.post('cadastro', { cpf, email, nome, senha, isProfessor });
     
         if (res.status === 201) {
           setMessage("Cadastro realizado com sucesso!");
@@ -123,6 +124,25 @@ const Cadastro = () => {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   value={cpf} onChange={e => setCpf( e.target.value)}
                 />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="isProfessor" className="block text-sm font-medium leading-6 text-gray-900">
+                Tipo
+              </label>
+              <div className="mt-2">
+                <select
+                  id="isProfessor"
+                  name="isProfessor"
+                  required
+                  autoComplete="isProfessor"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  value={isProfessor} onChange={e => setIsProfessor(e.target.value)}
+                >
+                  <option value="false">Aluno</option>
+                  <option value="true">Professor</option>
+                </select>
               </div>
             </div>
 

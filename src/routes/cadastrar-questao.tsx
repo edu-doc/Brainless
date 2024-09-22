@@ -16,9 +16,11 @@ const CadastrarQuestao = () => {
     const [ alternativaE, setAltE] = useState("");
     const [ visibilidade, setVisibilidade] = useState("");
     const [ resposta, setResposta ] = useState("");
+
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+  
   
   
     const handleSubmit = async(e: React.FormEvent) => { 
