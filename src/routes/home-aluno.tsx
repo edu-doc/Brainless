@@ -81,14 +81,17 @@ const HomeAluno = () => {
                                                 <td className="px-4 py-2">
                                                     <div className="flex justify-center">
                                                         {questao.ano}
-                                                    </div></td>
-                                                <td className="px-4 py-2">
-                                                    <div className="flex justify-center">
-                                                        <button className="p-2 bg-[#0056B3] w-8 h-8 text-white rounded-md flex items-center justify-center hover:bg-[#007BFF] ">
-                                                            <img src="src/assets/icon-responder.png" alt="responder" className="w-full h-full filter invert drop-shadow-md"/>
-                                                        </button> 
                                                     </div>
                                                 </td>
+                                                    <td className="px-1 py-2" style={{ width: '5%' }}>
+                                                        <div className="flex justify-center">
+                                                            <button 
+                                                                onClick={() => navigate(`/responder-questao/${questao.id}`)}
+                                                                className="p-2 bg-[#0056B3] w-8 h-8 text-white rounded-md flex items-center justify-center hover:bg-[#007BFF] ">
+                                                                <img src="src/assets/icon-responder.png" alt="responder" className="w-full h-full filter invert drop-shadow-md"/>
+                                                            </button> 
+                                                        </div>
+                                                    </td>
                                             </tr>
                                         )))}
                                     </tbody>
