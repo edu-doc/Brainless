@@ -49,11 +49,15 @@ public class Questao {
     @Column(nullable = false)
     private String resposta;
 
-    public Questao(List<String> alternativas, String enunciado, String resposta, List<String> tema) {
+    @Column(nullable = false)
+    private Boolean isPublica;
+
+    public Questao(List<String> alternativas, String enunciado, String resposta, List<String> tema, Boolean isPublica) {
         this.alternativas = alternativas;
         this.enunciado = enunciado;
         this.resposta = resposta;
         this.tema = tema;
+        this.isPublica = isPublica;
         LocalDate anoAtual = LocalDate.now();
         this.ano = anoAtual.getYear();
     }
