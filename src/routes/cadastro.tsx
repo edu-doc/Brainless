@@ -9,7 +9,7 @@ const Cadastro = () => {
     const [ nome, setNome ] = useState("");
     const [ senha, setSenha ] = useState("");
     const [ cpf, setCpf ] = useState("");
-    const [ isProfessor, setIsProfessor ] = useState("")
+    const [ isProfessor, setIsProfessor ] = useState("false")
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
