@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '../utils/axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import NavBar from "../components/NavBar";
-
 
 const CadastrarQuestao = () => {
 
@@ -17,9 +16,43 @@ const CadastrarQuestao = () => {
     const [ isPublica, setIsPublica] = useState("true");
     const [ resposta, setResposta ] = useState("");
 
+    const [isEditing, setIsEditing] = useState(false);
+
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    const params = useParams<Record<string, string | undefined>>();
+
+    useEffect(() => {
+      const fetchQuestao = async () => {
+        if (params.id) {
+            setIsEditing(true);
+
+            try {
+              const res = await api.get(`questao?id=${params.id}`);
+              // Preencher os estados com os dados da questão
+              setEnunciado(res.data.enunciado);
+              setTema(res.data.tema[0]);
+              setAltA(res.data.alternativas[0]);
+              setAltB(res.data.alternativas[1]);
+              setAltC(res.data.alternativas[2]);
+              setAltD(res.data.alternativas[3]);
+              setAltE(res.data.alternativas[4]);
+              setIsPublica(res.data.isPublica);
+              setResposta(res.data.resposta);
+              // e assim por diante para outros campos
+            } catch (error) {
+              setMessage("Erro ao conectar com o servidor. Tente novamente mais tarde.");
+            }
+        } else {
+          setIsEditing(false);
+        }
+      };
+      
+      fetchQuestao();
+
+    }, [params.id]);
   
   
   
@@ -28,10 +61,19 @@ const CadastrarQuestao = () => {
       setLoading(true);
       setMessage("");
 
+      console.log("ID da questão:", params.id);
+
       try {
         const alternativas = [alternativaA, alternativaB, alternativaC, alternativaD, alternativaE];
         const tema = [temas];
-        const res = await api.post('questao', { alternativas, enunciado , resposta , tema, isPublica });
+
+        let res;
+
+        if(isEditing){
+          res = await api.put('questao' , { id: params.id ,alternativas, enunciado , resposta , tema, isPublica });
+        } else {
+          res = await api.post('questao' , { alternativas, enunciado , resposta , tema, isPublica });
+        }
     
         if (res.status === 201) {
           setMessage("Questão cadastrada com sucesso!");
@@ -40,7 +82,7 @@ const CadastrarQuestao = () => {
           setMessage(res.data.message || "Falha ao realizar o cadastro. Tente novamente.");
         }
       } catch (error: any) {
-        if (error.response) {
+        if (error.response) { 
           setMessage(error.response.data || "Erro ao processar a requisição.");
         } else if (error.request) {
           setMessage("Sem resposta do servidor. Verifique sua conexão e tente novamente.");
@@ -70,7 +112,7 @@ const CadastrarQuestao = () => {
                     id="tema"
                     name="tema"
                     className="w-full p-3 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={temas}
+                    value={temas || ''}
                     onChange={e => setTema(e.target.value)}
                     required
                     />
@@ -83,7 +125,7 @@ const CadastrarQuestao = () => {
                       id="isPublica"
                       name="isPublica"
                       className="w-full p-3 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={isPublica}
+                      value={isPublica || ''}
                       onChange={e => setIsPublica(e.target.value)}
                       required
                       >
@@ -210,14 +252,14 @@ const CadastrarQuestao = () => {
                 <div className='w-1/4 justify-end'>
                   <button className="bg-white text-black font-anonymous-pro font-bold p-5 border border-black rounded-lg text-xl hover:bg-gray-100 w-full"
                           onClick={() => navigate("/home-professor")}
->
+                  >
                     CANCELAR
                   </button>
                 </div>
 
                 <div className='w-1/4 justify-end'>
                   <button type="submit" className="bg-white text-black font-anonymous-pro font-bold p-5 border border-black rounded-lg text-xl hover:bg-gray-100 w-full">
-                    CADASTRAR
+                    {isEditing ? "EDITAR" : "CADASTRAR"}
                   </button>
                 </div>
               </div>

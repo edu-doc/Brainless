@@ -31,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/cadastrar-questao",
     element: <CadastrarQuestao />
+  },
+  {
+    path: "/editar-questao/:id",
+    element: <CadastrarQuestao />
   }
 ]);
 

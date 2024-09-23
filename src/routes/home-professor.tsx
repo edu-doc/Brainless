@@ -44,7 +44,7 @@ const HomeProfessor = () => {
             <>
             <div className="flex flex-col h-full">
                 <NavBar />
-                <div className="bg-gradient-to-b from-[#007BFF] from-41% to-[#0056B3] to-90% flex flex-1 justify-around">
+                <div className="bg-gradient-to-b from-[#007BFF] from-41% to-[#0056B3] to-90% flex flex-1 justify-around h-5/6">
                     
                     {/* Menu Lateral */}
                     <div className=" w-2/12 m-4 bg-gray-800 text-white p-4 rounded-lg shadow-lg">
@@ -55,9 +55,9 @@ const HomeProfessor = () => {
                         </ul>
                     </div>
 
-                    <div className="p-4 w-10/12"> {/* Ajuste ml-72 para a largura do menu e mt-16 para a altura da barra de navegação */}
+                    <div className="p-4 w-10/12">
                         <main className="flex-1 bg-white h-full rounded-lg shadow-lg p-6">
-                            <div className="flex justify-between items-center mb-3">
+                            <div className="flex justify-between items-center mb-3" style={{ height: '10%' }}>
                                 <h1 className="text-2xl font-bold mb-4">Suas Questões</h1>
                                 <button
                                     onClick={() => navigate("/cadastrar-questao")}
@@ -68,16 +68,16 @@ const HomeProfessor = () => {
                             </div>
                                 
                             {/* Tabela */}
-                            <div className="overflow-x-auto rounded-md">
-                                <table className="table-auto w-full h-full rounded-md border-1 border-black hover:table-auto">
+                            <div className="overflow-y-auto rounded-md" style={{ height: '90%' }}>
+                                <table className="table-auto w-full rounded-md border-1 border-black hover:table-auto">
                                     <thead className="bg-[#0056B3] text-white border-solid border-1 border-black">
                                         <tr>
                                             <th className="px-4 py-2">Enunciado</th>
                                             <th className="px-4 py-2">Tema</th>
                                             <th className="px-4 py-2">Ano</th>
                                             <th className="px-4 py-2">Visibilidade</th>
-                                            <th className="px-4 py-2">Editar</th>
-                                            <th className="px-4 py-2">Excluir</th>
+                                            <th className="px-1 py-2" style={{ width: '5%' }}>Editar</th>
+                                            <th className="px-1 py-2" style={{ width: '5%' }}>Excluir</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -93,14 +93,16 @@ const HomeProfessor = () => {
                                                     <div className="flex justify-center">
                                                         {questao.isPublica ? "Pública" : "Privada"}
                                                     </div></td>
-                                                <td className="px-4 py-2">
+                                                <td className="px-1 py-2" style={{ width: '5%' }}>
                                                     <div className="flex justify-center">
-                                                        <button className="p-2 bg-[#0056B3] w-8 h-8 text-white rounded-md flex items-center justify-center hover:bg-[#007BFF] ">
+                                                        <button 
+                                                            onClick={() => navigate(`/editar-questao/${questao.id}`)}
+                                                            className="p-2 bg-[#0056B3] w-8 h-8 text-white rounded-md flex items-center justify-center hover:bg-[#007BFF] ">
                                                             <img src="src/assets/icon-editar.png" alt="editar" className="w-full h-full filter invert drop-shadow-md"/>
                                                         </button> 
                                                     </div>
                                                 </td>
-                                                <td className="px-4 py-2 flex justify-center">
+                                                <td className="px-1 py-2" style={{ width: '5%' }}>
                                                     <div className="flex justify-center">
                                                         <button className="p-2 bg-red-600 w-8 h-8 drop-shadow-md text-white rounded-md flex items-center justify-center hover:bg-red-500">
                                                             <img src="src/assets/icon-excluir.png" alt="excluir" className="w-full h-full filter invert drop-shadow-md"/>
