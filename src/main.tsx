@@ -10,6 +10,7 @@ import Cadastro from './routes/cadastro';
 import CadastrarQuestao from './routes/cadastrar-questao';
 import HomeProfessor from './routes/home-professor';
 import HomeAluno from './routes/home-aluno';
+import ResponderQuestao from './routes/responder-questao';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/editar-questao/:id",
     element: <CadastrarQuestao />
+  },
+  {
+    path: "/responder-questao/:id",
+    element: <ResponderQuestao />
   }
 ]);
 
