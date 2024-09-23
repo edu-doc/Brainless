@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -57,23 +56,6 @@ public class QuestaoController {
     public Optional<Questao> SearchQuest(Long id){
         Optional<Questao> questList = service.findById(id);
         return questList;
-    }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @DeleteMapping
-    public ResponseEntity<String> DeleteQuest(Long id){
-
-        Optional<Questao> questList = service.findById(id);
-
-        if (questList == null){
-            return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Questão não encontrada");
-        }
-        
-        service.deleteById(id);
-        
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Questão deletada com sucesso");
     }
 
 }
