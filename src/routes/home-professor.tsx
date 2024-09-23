@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import ModalDelete from "../components/ModalDelete";
 import { useEffect, useState } from "react";
 import { api } from "../utils/axios";
 
@@ -18,22 +19,49 @@ const HomeProfessor = () => {
 
     const [questoes, setQuestoes] = useState<Questao[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [itemIdToDelete, setItemIdToDelete] = useState<number | null>(null);
+
+
+    const openModal = (id: number) => {
+        setItemIdToDelete(id); // Armazena o id do item a ser excluído
+        setIsModalOpen(true);
+    };
+
+    const handleDelete = async () => {
+        if (itemIdToDelete !== null) {
+            try {
+                console.log(itemIdToDelete);
+                await api.delete(`/professor?id=${itemIdToDelete}`);
+                console.log(`Item ${itemIdToDelete} excluído com sucesso!`);
+                
+                fetchQuestoes();
+            } catch (error) {
+                console.error('Erro ao excluir o item:', error);
+            } finally {
+                setIsModalOpen(false);
+                setItemIdToDelete(null);
+            }
+        }
+    };
+
+
+    const fetchQuestoes = async () => {
+        try {
+            const res = await api.get('/professor');
+            console.log(res.data);
+            setQuestoes(res.data);
+        } catch (error) {
+            console.error('Erro ao buscar questões:', error);
+            setQuestoes([]);
+        } finally {
+            setLoading(false);
+        }
+
+    };
 
 
     useEffect(() => {
-        const fetchQuestoes = async () => {
-            try {
-                const res = await api.get('/professor');
-                console.log(res.data);
-                setQuestoes(res.data);
-            } catch (error) {
-                console.error('Erro ao buscar questões:', error);
-            } finally {
-                setLoading(false);
-            }
-
-        };
-
         fetchQuestoes();
     }, []);
 
@@ -97,14 +125,18 @@ const HomeProfessor = () => {
                                                     <div className="flex justify-center">
                                                         <button 
                                                             onClick={() => navigate(`/editar-questao/${questao.id}`)}
-                                                            className="p-2 bg-[#0056B3] w-8 h-8 text-white rounded-md flex items-center justify-center hover:bg-[#007BFF] ">
+                                                            className="p-2 bg-[#0056B3] w-8 h-8 text-white rounded-md flex items-center justify-center hover:bg-[#007BFF] "
+                                                        >
                                                             <img src="src/assets/icon-editar.png" alt="editar" className="w-full h-full filter invert drop-shadow-md"/>
                                                         </button> 
                                                     </div>
                                                 </td>
                                                 <td className="px-1 py-2" style={{ width: '5%' }}>
                                                     <div className="flex justify-center">
-                                                        <button className="p-2 bg-red-600 w-8 h-8 drop-shadow-md text-white rounded-md flex items-center justify-center hover:bg-red-500">
+                                                        <button
+                                                            onClick={() => openModal(questao.id)} 
+                                                            className="p-2 bg-red-600 w-8 h-8 drop-shadow-md text-white rounded-md flex items-center justify-center hover:bg-red-500"
+                                                        >
                                                             <img src="src/assets/icon-excluir.png" alt="excluir" className="w-full h-full filter invert drop-shadow-md"/>
                                                         </button>
                                                     </div>
@@ -118,6 +150,12 @@ const HomeProfessor = () => {
                     </div>
                 </div>
                 </div>
+
+                <ModalDelete
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onConfirm={handleDelete}
+                />
             </>
 
 )};
