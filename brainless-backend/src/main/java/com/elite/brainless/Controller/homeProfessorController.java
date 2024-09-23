@@ -31,19 +31,13 @@ public class HomeProfessorController {
     @GetMapping
     public List<QuestaoResponse> questoes(){
         List<QuestaoResponse> questList = service.findAll().stream().map(QuestaoResponse::new).toList();
+
         return questList;
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping
     public ResponseEntity<String> DeleteQuest(Long id){
-
-        Optional<Questao> questList = service.findById(id);
-
-        if (questList == null){
-            return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Questão não encontrada");
-        }
         
         service.deleteById(id);
         
