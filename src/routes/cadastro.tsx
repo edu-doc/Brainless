@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { api } from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
+import MaskedInput from '../components/MaskedInput';
 
 
 const Cadastro = () => {
@@ -125,6 +126,8 @@ const Cadastro = () => {
                   value={cpf} onChange={e => setCpf( e.target.value)}
                 />
               </div>
+              <MaskedInput value={cpf} onChange={e => setCpf( e.target.value)}/>
+
             </div>
 
             <div>
