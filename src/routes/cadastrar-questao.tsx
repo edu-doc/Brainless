@@ -14,7 +14,7 @@ const CadastrarQuestao = () => {
     const [ alternativaC, setAltC] = useState("");
     const [ alternativaD, setAltD] = useState("");
     const [ alternativaE, setAltE] = useState("");
-    const [ visibilidade, setVisibilidade] = useState("");
+    const [ isPublica, setIsPublica] = useState("true");
     const [ resposta, setResposta ] = useState("");
 
     const [message, setMessage] = useState("");
@@ -31,11 +31,11 @@ const CadastrarQuestao = () => {
       try {
         const alternativas = [alternativaA, alternativaB, alternativaC, alternativaD, alternativaE];
         const tema = [temas];
-        const res = await api.post('questao', { alternativas, enunciado , resposta , tema });
+        const res = await api.post('questao', { alternativas, enunciado , resposta , tema, isPublica });
     
         if (res.status === 201) {
           setMessage("Questão cadastrada com sucesso!");
-          navigate("/home");
+          navigate("/home-professor");
         } else {
           setMessage(res.data.message || "Falha ao realizar o cadastro. Tente novamente.");
         }
@@ -76,19 +76,19 @@ const CadastrarQuestao = () => {
                     />
                 </div>
                 <div className='w-1/6'>
-                    <label className="block text-black text-xl font-bold mb-2" htmlFor="visibilidade">
+                    <label className="block text-black text-xl font-bold mb-2" htmlFor="isPublica">
                       Visibilidade:
                     </label>
                     <select
-                      id="visibilidade"
-                      name="visibilidade"
+                      id="isPublica"
+                      name="isPublica"
                       className="w-full p-3 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={visibilidade}
-                      onChange={e => setVisibilidade(e.target.value)}
+                      value={isPublica}
+                      onChange={e => setIsPublica(e.target.value)}
                       required
                       >
-                      <option value="publico">Público</option>
-                      <option value="privado">Privado</option>
+                      <option value="true">Público</option>
+                      <option value="false">Privado</option>
                     </select>
                 </div>
               </div>
@@ -209,7 +209,7 @@ const CadastrarQuestao = () => {
                <div className="flex justify-between">
                 <div className='w-1/4 justify-end'>
                   <button className="bg-white text-black font-anonymous-pro font-bold p-5 border border-black rounded-lg text-xl hover:bg-gray-100 w-full"
-                          onClick={() => navigate("/home")}
+                          onClick={() => navigate("/home-professor")}
 >
                     CANCELAR
                   </button>
