@@ -111,7 +111,9 @@ const HomeProfessor = () => {
                                     <tbody>
                                         {questoes.map((questao) => (
                                             <tr key={questao.id} className="border-b bg-gray-300">
-                                                <td className="px-4 py-2">{questao.enunciado}</td>
+                                                <td className="px-4 py-2">{questao.enunciado.length > 30
+                                                    ? `${questao.enunciado.substring(0, 27)}...`
+                                                    : questao.enunciado}</td>
                                                 <td>{(questao.tema ?? []).join(', ')}</td> {/* Usando coalescência nula */}
                                                 <td className="px-4 py-2">
                                                     <div className="flex justify-center">
