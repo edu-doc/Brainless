@@ -61,40 +61,38 @@ const HomeAluno = () => {
                                 <h1 className="text-2xl font-bold mb-4">Últimas Questões</h1>
                             </div>
                                 
-                            {/* Tabela */}
                             <div className="overflow-x-auto rounded-md">
-                                <table className="table-auto w-full h-full rounded-md border-1 border-black hover:table-auto">
-                                    <thead className="bg-[#0056B3] text-white border-solid border-1 border-black">
+                                <table className="table-fixed w-full h-full rounded-md border border-black">
+                                    <thead className="bg-[#0056B3] text-white border-solid border-black">
                                         <tr>
-                                            <th className="px-4 py-2">Enunciado</th>
-                                            <th className="px-4 py-2">Tema</th>
-                                            <th className="px-4 py-2">Ano</th>
-                                            <th className="px-4 py-2">Responder</th>
+                                            <th className="px-4 py-2 text-left">Enunciado</th>
+                                            <th className="px-4 py-2 text-left">Tema</th>
+                                            <th className="px-4 py-2 text-center">Ano</th>
+                                            <th className="px-4 py-2 text-center">Responder</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {questoes.map((questao) => (
                                             questao.isPublica && (
                                             <tr key={questao.id} className="border-b bg-gray-300">
-                                                <td className="px-4 py-2">{questao.enunciado.length > 30
+                                                <td className="px-4 py-2 text-left">{questao.enunciado.length > 30
                                                     ? `${questao.enunciado.substring(0, 27)}...`
                                                     : questao.enunciado}</td>
-                                                <td>{(questao.tema ?? []).join(', ')}</td>
-                                                <td>{(questao.tema ?? []).join(', ')}</td> {/* Usando coalescência nula */}
-                                                <td className="px-4 py-2">
+                                                <td className="px-4 py-2 text-left">{(questao.tema ?? []).join(', ')}</td>
+                                                <td className="px-4 py-2 text-center">
                                                     <div className="flex justify-center">
                                                         {questao.ano}
                                                     </div>
                                                 </td>
-                                                    <td className="px-1 py-2" style={{ width: '5%' }}>
-                                                        <div className="flex justify-center">
-                                                            <button 
-                                                                onClick={() => navigate(`/responder-questao/${questao.id}`)}
-                                                                className="p-2 bg-[#0056B3] w-8 h-8 text-white rounded-md flex items-center justify-center hover:bg-[#007BFF] ">
-                                                                <img src="src/assets/icon-responder.png" alt="responder" className="w-full h-full filter invert drop-shadow-md"/>
-                                                            </button> 
-                                                        </div>
-                                                    </td>
+                                                <td className="px-4 py-2 text-center">
+                                                    <div className="flex justify-center">
+                                                        <button 
+                                                            onClick={() => navigate(`/responder-questao/${questao.id}`)}
+                                                            className="p-2 bg-[#0056B3] w-8 h-8 text-white rounded-md flex items-center justify-center hover:bg-[#007BFF]">
+                                                            <img src="src/assets/icon-responder.png" alt="responder" className="w-full h-full filter invert drop-shadow-md"/>
+                                                        </button> 
+                                                    </div>
+                                                </td>
                                             </tr>
                                         )))}
                                     </tbody>
