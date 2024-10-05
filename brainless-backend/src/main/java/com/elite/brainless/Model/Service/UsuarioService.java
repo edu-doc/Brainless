@@ -44,13 +44,18 @@ public class UsuarioService {
 
         // Verifica se já existe um usuario com o mesmo CPF
         Optional<Usuario> existingUsu = usuRepository.findByCpf(usu.getCpf());
-
+        Optional<Usuario> existingUsu2 = usuRepository.findByEmail(usu.getEmail());
         // Se já existe um usuario com o mesmo CPF, lança uma exceção ou realiza
         // outra ação adequada
 
         if (existingUsu.isPresent()) {
             throw new RuntimeException("Já existe um usuario com o mesmo CPF");
         }
+
+        if (existingUsu2.isPresent()) {
+            throw new RuntimeException("Já existe um usuario com o mesmo email");
+        }
+
 
         // Se não existir, salva o novo usuario
         System.out.println("Cadastro realizado com sucesso.");
