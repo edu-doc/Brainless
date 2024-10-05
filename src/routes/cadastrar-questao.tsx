@@ -8,13 +8,14 @@ const CadastrarQuestao = () => {
 
     const [ temas, setTema ] = useState("");
     const [ enunciado, setEnunciado ] = useState("");
+    const [ justificativa, setJustificativa ] = useState("");
     const [ alternativaA, setAltA ] = useState("");
     const [ alternativaB, setAltB ] = useState("");
     const [ alternativaC, setAltC] = useState("");
     const [ alternativaD, setAltD] = useState("");
     const [ alternativaE, setAltE] = useState("");
     const [ isPublica, setIsPublica] = useState("true");
-    const [ resposta, setResposta ] = useState("");
+    const [ resposta, setResposta ] = useState("A");
 
     const [isEditing, setIsEditing] = useState(false);
 
@@ -41,6 +42,7 @@ const CadastrarQuestao = () => {
               setAltE(res.data.alternativas[4]);
               setIsPublica(res.data.isPublica);
               setResposta(res.data.resposta);
+              setJustificativa(res.data.justificativa);
               // e assim por diante para outros campos
             } catch (error) {
               setMessage("Erro ao conectar com o servidor. Tente novamente mais tarde.");
@@ -70,9 +72,9 @@ const CadastrarQuestao = () => {
         let res;
 
         if(isEditing){
-          res = await api.put('questao' , { id: params.id ,alternativas, enunciado , resposta , tema, isPublica });
+          res = await api.put('questao' , { id: params.id ,alternativas, enunciado, justificativa, resposta , tema, isPublica });
         } else {
-          res = await api.post('questao' , { alternativas, enunciado , resposta , tema, isPublica });
+          res = await api.post('questao' , { alternativas, enunciado, justificativa, resposta, tema, isPublica });
         }
     
         if (res.status === 201) {
@@ -105,7 +107,7 @@ const CadastrarQuestao = () => {
               <div className="flex grid-cols-2 row-span-1 gap-4 justify-between items-center">
                 <div className='w-2/6'>
                   <label className="block text-black text-xl mb-2 font-bold" htmlFor="tema">
-                    Tema:
+                    Tema*:
                   </label>
                   <input
                     type="text"
@@ -119,7 +121,7 @@ const CadastrarQuestao = () => {
                 </div>
                 <div className='w-1/6'>
                     <label className="block text-black text-xl font-bold mb-2" htmlFor="isPublica">
-                      Visibilidade:
+                      Visibilidade*:
                     </label>
                     <select
                       id="isPublica"
@@ -138,7 +140,7 @@ const CadastrarQuestao = () => {
               {/* Enunciado */}
               <div className="row-span-1">
                 <label className="block text-black text-xl font-bold mb-2" htmlFor="enunciado">
-                  Enunciado:
+                  Enunciado*:
                 </label>
                 <textarea
                   id="enunciado"
@@ -150,12 +152,26 @@ const CadastrarQuestao = () => {
                   required
                 />
               </div>
+              <div className="row-span-1">
+                <label className="block text-black text-xl font-bold mb-2" htmlFor="enunciado">
+                  Justificativa da Resposta*:
+                </label>
+                <textarea
+                  id="justificativa"
+                  name="justificativa"
+                  rows={4}
+                  className="w-full p-4 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  value={justificativa}
+                  onChange={e => setJustificativa(e.target.value)}
+                  required
+                />
+              </div>
 
               {/* Alternativa A e B */}
               <div className="grid grid-cols-2 gap-10 row-span-1">
                 <div>
                   <label className="block text-black text-xl font-bold mb-2" htmlFor="altA">
-                    Alternativa A:
+                    Alternativa A*:
                   </label>
                   <textarea
                     id="altA"
@@ -168,7 +184,7 @@ const CadastrarQuestao = () => {
                 </div>
                 <div>
                   <label className="block text-black text-xl font-bold mb-2" htmlFor="altB">
-                    Alternativa B:
+                    Alternativa B*:
                   </label>
                   <textarea
                     id="altB"
@@ -193,7 +209,7 @@ const CadastrarQuestao = () => {
                     className="w-full p-3 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                     value={alternativaC}
                     onChange={e => setAltC(e.target.value)}
-                    required
+                    
                   />
                 </div>
                 <div>
@@ -206,7 +222,7 @@ const CadastrarQuestao = () => {
                     className="w-full p-3 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                     value={alternativaD}
                     onChange={e => setAltD(e.target.value)}
-                    required
+                    
                   />
                 </div>
               </div>
@@ -228,7 +244,7 @@ const CadastrarQuestao = () => {
 
                 <div className='w-1/2'>
                   <label className="block text-black text-xl font-bold mb-2" htmlFor="resposta">
-                    Resposta:
+                    Resposta*:
                   </label>
                   <select
                     id="resposta"
@@ -238,11 +254,11 @@ const CadastrarQuestao = () => {
                     onChange={e => setResposta(e.target.value)}
                     required
                     >
-                      <option value="A">A</option>
-                      <option value="B">B</option>
-                      <option value="C">C</option>
-                      <option value="D">D</option>
-                      <option value="E">E</option>
+                      {alternativaA && <option value="A">A</option>}
+                      {alternativaB && <option value="B">B</option>}
+                      {alternativaC && <option value="C">C</option>}
+                      {alternativaD && <option value="D">D</option>}
+                      {alternativaE && <option value="E">E</option>}
                   </select>
                 </div>
               </div>
