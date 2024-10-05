@@ -47,14 +47,18 @@ public class Questao {
     private String enunciado;
 
     @Column(nullable = false)
+    private String justificativa;
+
+    @Column(nullable = false)
     private String resposta;
 
     @Column(nullable = false)
     private Boolean isPublica;
 
-    public Questao(List<String> alternativas, String enunciado, String resposta, List<String> tema, Boolean isPublica) {
+    public Questao(List<String> alternativas, String enunciado, String justificativa, String resposta, List<String> tema, Boolean isPublica) {
         this.alternativas = alternativas;
         this.enunciado = enunciado;
+        this.justificativa = justificativa;
         this.resposta = resposta;
         this.tema = tema;
         this.isPublica = isPublica;
