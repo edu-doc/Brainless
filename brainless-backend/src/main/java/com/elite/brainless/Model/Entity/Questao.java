@@ -4,12 +4,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +25,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "table_questoes")
 public class Questao {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,6 +55,12 @@ public class Questao {
 
     @Column(nullable = false)
     private Boolean isPublica;
+
+    @OneToOne(mappedBy = "questao", cascade = CascadeType.ALL)
+    private Resposta resp;
+
+    @OneToOne
+    private Usuario usuario;
 
     public Questao(List<String> alternativas, String enunciado, String justificativa, String resposta, List<String> tema, Boolean isPublica) {
         this.alternativas = alternativas;
@@ -98,6 +105,7 @@ public class Questao {
         sb.append(", tema=").append(tema);
         sb.append(", aproveitamento=").append(aproveitamento);
         sb.append(", enunciado=").append(enunciado);
+        sb.append(", justificativa=").append(justificativa);
         sb.append(", resposta=").append(resposta);
         sb.append('}');
         return sb.toString();

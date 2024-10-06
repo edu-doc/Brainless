@@ -20,9 +20,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/questao")
+@RequestMapping("/questaoProfessor")
 @RequiredArgsConstructor
-public class QuestaoController {
+public class QuestaoProfessorController {
 
     @Autowired
     private final QuestaoService service;
