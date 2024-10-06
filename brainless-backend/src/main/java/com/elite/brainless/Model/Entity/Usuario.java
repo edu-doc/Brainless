@@ -11,6 +11,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,12 +35,15 @@ public @Valid class Usuario {
     private String cpf;
 
     @Column(nullable = false)
+    @NotBlank(message = "Nome não pode estar vazio")
     private String nome;
 
     @Column(nullable = false, unique = true)
+    @NotBlank(message = "Email não pode estar vazio")
     private String email;
 
     @Column(nullable = false)
+    @NotBlank(message = "Senha não pode estar vazia")
     private String senha;
 
     @Column(nullable = false)
