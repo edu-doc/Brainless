@@ -2,6 +2,7 @@ package com.elite.brainless.Model.Entity;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -44,6 +46,9 @@ public @Valid class Usuario {
 
     @Column(nullable = false)
     private Boolean isProfessor;
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Resposta resposta;
 
     public Usuario(String cpf,String email,String nome,String senha,Boolean isProfessor) {
         this.cpf = cpf;
