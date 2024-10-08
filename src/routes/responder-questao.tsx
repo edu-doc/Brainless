@@ -21,6 +21,7 @@ const ResponderQuestao = () => {
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [respostaSubjetiva, setRespostaSubjetiva] = useState(""); // Estado para resposta subjetiva
   const navigate = useNavigate();
 
   const params = useParams<Record<string, string | undefined>>();
@@ -30,7 +31,6 @@ const ResponderQuestao = () => {
       if (params.id) {
         try {
           const res = await api.get(`questaoAluno?id=${params.id}`);
-          // Preencher os estados com os dados da questão
           setEnunciado(res.data.enunciado);
           setTema(res.data.tema[0]);
           setAltA(res.data.alternativas[0]);
@@ -40,7 +40,6 @@ const ResponderQuestao = () => {
           setAltE(res.data.alternativas[4]);
           setResposta(res.data.resposta);
           setJustificativa(res.data.justificativa);
-          // e assim por diante para outros campos
         } catch (error) {
           setMessage(
             "Erro ao conectar com o servidor. Tente novamente mais tarde."
@@ -52,13 +51,40 @@ const ResponderQuestao = () => {
     fetchQuestao();
   }, [params.id]);
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault(); // Previne o comportamento padrão do formulário
-    if (submitted) {
-      setShowModal(true);
-    } else {
-      setSubmitted(true);
+  // Função para verificar se a questão é subjetiva
+  const isQuestaoSubjetiva = !alternativaA && !alternativaB && !alternativaC && !alternativaD && !alternativaE;
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+  
+    if (isQuestaoSubjetiva && !respostaSubjetiva.trim()) {
+      setMessage("O campo de resposta é obrigatório.");
+      return;
     }
+  
+    setMessage("");
+    setLoading(true);
+  
+    // try {
+    //   const data = {
+    //     questaoId: params.id,
+    //     resposta: isQuestaoSubjetiva ? respostaSubjetiva : alternativaSelecionada,
+    //   };
+  
+    //   await api.post("/responder-questao", data);
+  
+    //   if (submitted) {
+    //     setShowModal(true);
+    //   } else {
+    //     setSubmitted(true);
+    //   }
+  
+    //   setMessage("Resposta cadastrada com sucesso.");
+    // } catch (error) {
+    //   setMessage("Erro ao cadastrar a resposta. Tente novamente.");
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
@@ -126,63 +152,85 @@ const ResponderQuestao = () => {
 
             <hr />
 
-            {/* Alternativa A e B */}
-            {alternativaA && (
-              <Alternative
-                resposta={resposta}
-                text={alternativaA}
-                alternativaSelecionada={alternativaSelecionada}
-                label="A"
-                onClick={() => setAlternativaSelecionada("A")}
-                submitted={submitted}
-              />
+            {/* Verificação se a questão é subjetiva ou objetiva */}
+            {isQuestaoSubjetiva ? (
+              <div className="flex flex-col">
+                <label
+                  htmlFor="respostaSubjetiva"
+                  className="text-black text-xl font-semibold p-2"
+                >
+                  Resposta:
+                </label>
+                <textarea
+                  id="respostaSubjetiva"
+                  className="w-full p-4 border border-black rounded-lg focus:outline-none focus:ring-2 resize-none"
+                  style={{ minHeight: "200px" }}  // Define uma altura mínima de 200px
+                  value={respostaSubjetiva}
+                  onChange={(e) => setRespostaSubjetiva(e.target.value)}
+                  placeholder="Escreva sua resposta aqui..."
+                />
+              </div>
+            ) : (
+              <>
+                {/* Alternativas A até E */}
+                {alternativaA && (
+                  <Alternative
+                    resposta={resposta}
+                    text={alternativaA}
+                    alternativaSelecionada={alternativaSelecionada}
+                    label="A"
+                    onClick={() => setAlternativaSelecionada("A")}
+                    submitted={submitted}
+                  />
+                )}
+
+                {alternativaB && (
+                  <Alternative
+                    resposta={resposta}
+                    text={alternativaB}
+                    alternativaSelecionada={alternativaSelecionada}
+                    label="B"
+                    onClick={() => setAlternativaSelecionada("B")}
+                    submitted={submitted}
+                  />
+                )}
+
+                {alternativaC && (
+                  <Alternative
+                    resposta={resposta}
+                    text={alternativaC}
+                    alternativaSelecionada={alternativaSelecionada}
+                    label="C"
+                    onClick={() => setAlternativaSelecionada("C")}
+                    submitted={submitted}
+                  />
+                )}
+
+                {alternativaD && (
+                  <Alternative
+                    resposta={resposta}
+                    text={alternativaD}
+                    alternativaSelecionada={alternativaSelecionada}
+                    label="D"
+                    onClick={() => setAlternativaSelecionada("D")}
+                    submitted={submitted}
+                  />
+                )}
+
+                {alternativaE && (
+                  <Alternative
+                    resposta={resposta}
+                    text={alternativaE}
+                    alternativaSelecionada={alternativaSelecionada}
+                    label="E"
+                    onClick={() => setAlternativaSelecionada("E")}
+                    submitted={submitted}
+                  />
+                )}
+              </>
             )}
 
-            {alternativaB && (
-              <Alternative
-                resposta={resposta}
-                text={alternativaB}
-                alternativaSelecionada={alternativaSelecionada}
-                label="B"
-                onClick={() => setAlternativaSelecionada("B")}
-                submitted={submitted}
-              />
-            )}
-
-            {alternativaC && (
-              <Alternative
-                resposta={resposta}
-                text={alternativaC}
-                alternativaSelecionada={alternativaSelecionada}
-                label="C"
-                onClick={() => setAlternativaSelecionada("C")}
-                submitted={submitted}
-              />
-            )}
-
-            {alternativaD && (
-              <Alternative
-                resposta={resposta}
-                text={alternativaD}
-                alternativaSelecionada={alternativaSelecionada}
-                label="D"
-                onClick={() => setAlternativaSelecionada("D")}
-                submitted={submitted}
-              />
-            )}
-
-            {alternativaE && (
-              <Alternative
-                resposta={resposta}
-                text={alternativaE}
-                alternativaSelecionada={alternativaSelecionada}
-                label="E"
-                onClick={() => setAlternativaSelecionada("E")}
-                submitted={submitted}
-              />
-            )}
-
-            {/* Cancelar e Responder */}
+              {/* Cancelar e Responder */}
             <div className="flex justify-center mt-4">
               <div>
                 <button
@@ -190,7 +238,7 @@ const ResponderQuestao = () => {
                   className="bg-sky-800 text-white font-semibold px-12 py-4 rounded-lg text-xl shadow-lg hover:bg-sky-600 w-full"
                   onClick={handleSubmit}
                 >
-                  {submitted ? "JUSTIFICATIVA" : "RESPONDER"}
+                  {submitted ? "RESPOSTA DO PROFESSOR" : "RESPONDER"}
                 </button>
               </div>
 
