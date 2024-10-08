@@ -31,9 +31,9 @@ const HomeProfessor = () => {
     const handleDelete = async () => {
         if (itemIdToDelete !== null) {
             try {
-                console.log(itemIdToDelete);
+                // console.log(itemIdToDelete);
                 await api.delete(`/professor?id=${itemIdToDelete}`);
-                console.log(`Item ${itemIdToDelete} excluído com sucesso!`);
+                // console.log(`Item ${itemIdToDelete} excluído com sucesso!`);
                 
                 fetchQuestoes();
             } catch (error) {
@@ -49,7 +49,7 @@ const HomeProfessor = () => {
     const fetchQuestoes = async () => {
         try {
             const res = await api.get('/professor');
-            console.log(res.data);
+            // console.log(res.data);
             setQuestoes(res.data);
         } catch (error) {
             console.error('Erro ao buscar questões:', error);

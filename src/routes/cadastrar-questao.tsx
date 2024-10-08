@@ -31,7 +31,7 @@ const CadastrarQuestao = () => {
             setIsEditing(true);
 
             try {
-              const res = await api.get(`questao?id=${params.id}`);
+              const res = await api.get(`questaoProfessor?id=${params.id}`);
               // Preencher os estados com os dados da questão
               setEnunciado(res.data.enunciado);
               setTema(res.data.tema[0]);
@@ -72,9 +72,9 @@ const CadastrarQuestao = () => {
         let res;
 
         if(isEditing){
-          res = await api.put('questao' , { id: params.id ,alternativas, enunciado, justificativa, resposta , tema, isPublica });
+          res = await api.put('questaoProfessor' , { id: params.id ,alternativas, enunciado, justificativa, resposta , tema, isPublica });
         } else {
-          res = await api.post('questao' , { alternativas, enunciado, justificativa, resposta, tema, isPublica });
+          res = await api.post('questaoProfessor' , { alternativas, enunciado, justificativa, resposta, tema, isPublica });
         }
     
         if (res.status === 201) {
