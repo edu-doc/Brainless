@@ -65,7 +65,7 @@ const ResponderQuestao = () => {
     <>
       <NavBar />
       <div className="flex justify-center p-8 h-5/6 min-h-screen bg-gradient-to-b from-[#007BFF] to-[#0056B3] ">
-        <div className="p-8 bg-white w-10/12 rounded-md">
+        <div className="p-8 bg-white w-10/12 rounded-md overflow-auto">
           <form
             onSubmit={handleSubmit}
             className="flex flex-col gap-2 w-full mt-4 h-12"
@@ -184,7 +184,7 @@ const ResponderQuestao = () => {
 
             {/* Cancelar e Responder */}
             <div className="flex justify-center mt-4">
-              <div className="width-2/12">
+              <div>
                 <button
                   type="submit"
                   className="bg-sky-800 text-white font-semibold px-12 py-4 rounded-lg text-xl shadow-lg hover:bg-sky-600 w-full"
