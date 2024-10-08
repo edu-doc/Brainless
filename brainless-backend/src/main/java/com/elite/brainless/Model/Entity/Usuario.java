@@ -2,6 +2,7 @@ package com.elite.brainless.Model.Entity;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,9 +10,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,20 +37,29 @@ public @Valid class Usuario {
     private String cpf;
 
     @Column(nullable = false)
+    @NotBlank(message = "Nome não pode estar vazio")
     private String nome;
 
     @Column(nullable = false, unique = true)
+    @NotBlank(message = "Email não pode estar vazio")
     private String email;
 
     @Column(nullable = false)
+    @NotBlank(message = "Senha não pode estar vazia")
     private String senha;
 
-    public Usuario(String cpf,String email,Long id,String nome,String senha) {
+    @Column(nullable = false)
+    private Boolean isProfessor;
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Resposta resposta;
+
+    public Usuario(String cpf,String email,String nome,String senha,Boolean isProfessor) {
         this.cpf = cpf;
         this.email = email;
-        this.id = id;
         this.nome = nome;
         this.senha = senha;
+        this.isProfessor = isProfessor;
     }
 
     @Override
@@ -60,6 +71,7 @@ public @Valid class Usuario {
         sb.append(", nome=").append(nome);
         sb.append(", email=").append(email);
         sb.append(", senha=").append(senha);
+        sb.append(", isProfessor=").append(isProfessor);
         sb.append('}');
         return sb.toString();
     }

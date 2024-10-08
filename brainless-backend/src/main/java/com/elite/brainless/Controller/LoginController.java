@@ -26,18 +26,19 @@ public class LoginController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public ResponseEntity<String> login(@RequestBody Usuario data) {
+    public ResponseEntity<Usuario> login(@RequestBody Usuario data) {
         
         Optional<Usuario> usuarioOpt = this.service.findByEmail(data.getEmail());
 
         if (usuarioOpt.isEmpty()) {
+            System.out.println("EMAIL NAO ENCONTRADO");
             return ResponseEntity.badRequest().build(); // Usuario não encontrado
         }
 
         Usuario usuario = usuarioOpt.get();
 
         if(usuario.getSenha().equals(data.getSenha())){
-            return ResponseEntity.ok("Tudo ok");
+            return ResponseEntity.ok(usuario);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

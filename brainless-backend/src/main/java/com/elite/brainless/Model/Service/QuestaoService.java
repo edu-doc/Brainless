@@ -63,4 +63,24 @@ public class QuestaoService {
         questRepository.deleteById(id);
     }
 
+    public Questao updateQuestao(Long id, @Valid Questao questaoAtualizada) {
+        // Verifica se a questão com o ID especificado existe
+        Optional<Questao> existingQuest = questRepository.findById(id);
+    
+        if (existingQuest.isEmpty()) {
+            throw new RuntimeException("Questão não encontrada");
+        }
+    
+        Questao questaoExistente = existingQuest.get();
+    
+        // Atualiza os campos da questão existente com os novos valores
+        questaoExistente.setEnunciado(questaoAtualizada.getEnunciado());
+        questaoExistente.setAlternativas(questaoAtualizada.getAlternativas());
+        questaoExistente.setResposta(questaoAtualizada.getResposta());
+        // Atualize outros campos conforme necessário
+    
+        // Salva a questão atualizada no repositório
+        return questRepository.save(questaoExistente);
+    }
+
 }
