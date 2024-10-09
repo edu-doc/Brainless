@@ -1,9 +1,9 @@
 package com.elite.brainless.Model.Service;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elite.brainless.Model.Entity.Usuario;
@@ -13,6 +13,7 @@ import com.elite.brainless.exception.MultipleErrorsException;
 @Service
 public class UsuarioService {
 
+    @Autowired
     private final UsuarioRepository usuRepository;
 
     public UsuarioService(UsuarioRepository usuRepo) {

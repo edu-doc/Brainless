@@ -20,8 +20,17 @@ const Login = () => {
 
     try {
       const res = await api.post('login', { email, senha });
-      if (res.status === 200) {
-        navigate("/home");
+        if (res.status === 200) {
+
+          console.log(JSON.stringify(res, null, 2));
+          const user = res.data;
+          localStorage.setItem('user', JSON.stringify(user)); // <-- isso aqui é importante. guarda o usuario logado no storage, entao sempre que for verificar se é aluno/prof é só pegar de la
+          
+          if (user.isProfessor) {
+            navigate("/home-professor");
+          } else {
+            navigate("/home-aluno");
+          }
       } else {
         setMessage("Falha ao realizar o login. Tente novamente.");
       }

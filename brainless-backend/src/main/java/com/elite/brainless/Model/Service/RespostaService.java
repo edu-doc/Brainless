@@ -3,21 +3,32 @@ package com.elite.brainless.Model.Service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.elite.brainless.Model.Entity.Questao;
 import com.elite.brainless.Model.Entity.Resposta;
+import com.elite.brainless.Model.Entity.Usuario;
 import com.elite.brainless.Model.Repository.RespostaRepository;
+import com.elite.brainless.Model.Repository.UsuarioRepository;
+import com.elite.brainless.Model.Repository.QuestaoRepository;
 
 import jakarta.validation.Valid;
-
 
 @Service
 public class RespostaService {
 
+    @Autowired
     private final RespostaRepository respostaRepository;
+    @Autowired
+    private final UsuarioRepository usuarioRepository;
+    @Autowired
+    private final QuestaoRepository questaoRepository;
 
-    public RespostaService(RespostaRepository respostaRepo) {
-        this.respostaRepository = respostaRepo;
+    public RespostaService(RespostaRepository respRepo, UsuarioRepository usuarioRepo, QuestaoRepository questaoRepo) {
+        this.respostaRepository = respRepo;
+        this.usuarioRepository = usuarioRepo;
+        this.questaoRepository = questaoRepo;
     }
 
     public List<Resposta> findAll() {
@@ -35,19 +46,26 @@ public class RespostaService {
     }
 
     public Resposta createResposta(@Valid Resposta resposta) {
+        
+        Optional<Usuario> existingUsuario = usuarioRepository.findById(resposta.getUsuario().getId());
+        Optional<Questao> existingQuestao = questaoRepository.findById(resposta.getQuestao().getId());
+        Optional<Resposta> existingResposta = respostaRepository.findByUsuarioAndQuestao(resposta.getUsuario(), resposta.getQuestao());
 
-        // Verifica se já existe uma resposta com o mesmo Id
-        Optional<Resposta> existingResposta = respostaRepository.findById(resposta.getId());
-
-        if (existingResposta.isPresent()) {
-            // Se já existe uma resposta com o mesmo id, lança uma exceção ou realiza
-            // outra ação adequada
-            throw new RuntimeException("Já existe uma resposta com o mesmo id");
+        if (!existingUsuario.isPresent()) {
+            throw new RuntimeException("Não existe um usuario com esse id");
         }
 
-        // Se não existir, salva o novo questao
+        if (!existingQuestao.isPresent()) {
+            throw new RuntimeException("Não existe uma questao com esse id");
+        }
+
+        if(existingResposta.isPresent()){
+            throw new RuntimeException("Já existe essa questão");
+        }
+    
+        // Salva a nova resposta
         return respostaRepository.save(resposta);
-    }
+    }    
 
     public void deleteById(Long id) {
         Optional<Resposta> existingResposta = respostaRepository.findById(id);
@@ -76,5 +94,4 @@ public class RespostaService {
         // Salva a questão atualizada no repositório
         return respostaRepository.save(respostaExistente);
     }
-
 }

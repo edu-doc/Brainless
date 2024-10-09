@@ -3,6 +3,7 @@ package com.elite.brainless.Model.Service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elite.brainless.Model.Entity.Questao;
@@ -14,6 +15,7 @@ import jakarta.validation.Valid;
 @Service
 public class QuestaoService {
 
+    @Autowired
     private final QuestaoRepository questRepository;
 
     public QuestaoService(QuestaoRepository questRepo) {

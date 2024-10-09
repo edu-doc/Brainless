@@ -10,4 +10,6 @@ public interface QuestaoRepository extends JpaRepository<Questao, Long> {
 
     Optional<Questao> findByEnunciado(String enunciado);
 
+    Optional<Questao> findById(Long id);
+
 }
