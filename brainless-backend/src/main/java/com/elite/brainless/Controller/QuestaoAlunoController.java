@@ -35,16 +35,19 @@ public class QuestaoAlunoController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<String> saveResposta(@RequestBody @Valid RespostaResponse data) {
+        
+        System.out.println("ID DO USUARIO CHEGANDO: " + data.idUsu());
+
         if (data.idUsu() == null) {
-            throw new IllegalArgumentException("ID de usuário não pode ser nulo");
+            throw new IllegalArgumentException("ID de usuario nao pode ser nulo");
         }
 
         // Verificação correta de Optional
         Usuario usu = usuSec.findById(data.idUsu())
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Usuario nao encontrado"));
 
         Questao quest = service2.findById(data.idQuest())
-                .orElseThrow(() -> new IllegalArgumentException("Questão não encontrada"));
+                .orElseThrow(() -> new IllegalArgumentException("Questao nao encontrada"));
 
         Resposta resp = new Resposta(data.resposta(), data.acerto(), usu, quest);
 
