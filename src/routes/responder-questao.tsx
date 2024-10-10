@@ -3,8 +3,8 @@ import { api } from "../utils/axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 import NavBar from "../components/NavBar";
-import { cn } from "../utils";
 import Alternative from "../components/Alternative";
+import { useAuth } from "../context/AuthContext";
 
 const ResponderQuestao = () => {
   const [temas, setTema] = useState("");
@@ -22,8 +22,10 @@ const ResponderQuestao = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [respostaSubjetiva, setRespostaSubjetiva] = useState(""); // Estado para resposta subjetiva
+  const { userId } = useAuth();
   const navigate = useNavigate();
 
+  let acerto: boolean
   const params = useParams<Record<string, string | undefined>>();
 
   useEffect(() => {
@@ -56,35 +58,50 @@ const ResponderQuestao = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    if (submitted) {
+      setShowModal(true);
+    } else {
+      setSubmitted(true);
+    }
   
     if (isQuestaoSubjetiva && !respostaSubjetiva.trim()) {
       setMessage("O campo de resposta é obrigatório.");
       return;
     }
+
+    if (!isQuestaoSubjetiva) {
+      if (alternativaSelecionada === resposta) {
+        acerto = true;
+        console.log(acerto)
+      } else {
+        acerto = false;
+        console.log(acerto)
+      }
+    } 
   
     setMessage("");
     setLoading(true);
   
-    // try {
-    //   const data = {
-    //     questaoId: params.id,
-    //     resposta: isQuestaoSubjetiva ? respostaSubjetiva : alternativaSelecionada,
-    //   };
+    try {
+      const data = {
+        resposta: isQuestaoSubjetiva ? respostaSubjetiva : alternativaSelecionada,
+        acerto,
+        alunoId: userId,
+        questaoId: params.id
+      };
+
+      console.log("questao id: " + data.questaoId + "| resposta: " + data.resposta + "| acerto: " + data.acerto + "| alunoId: " + data.alunoId )
+      //erro: ta ficando null no BD pq o id ta como string mas é um long. ajeitar isso.
   
-    //   await api.post("/responder-questao", data);
-  
-    //   if (submitted) {
-    //     setShowModal(true);
-    //   } else {
-    //     setSubmitted(true);
-    //   }
-  
-    //   setMessage("Resposta cadastrada com sucesso.");
-    // } catch (error) {
-    //   setMessage("Erro ao cadastrar a resposta. Tente novamente.");
-    // } finally {
-    //   setLoading(false);
-    // }
+      await api.post("/questaoAluno", data);
+      
+      setMessage("Resposta cadastrada com sucesso.");
+    } catch (error) {
+      setMessage("Erro ao cadastrar a resposta. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -129,7 +146,7 @@ const ResponderQuestao = () => {
                 >
                   Tema:
                 </label>
-                <p className="text-black text-xl font-semibold border border-color-gray rounded p-2">
+                <p className="text-black text-xl font-semibold border border-color-black rounded p-2">
                   {temas}
                 </p>
               </div>
@@ -230,7 +247,7 @@ const ResponderQuestao = () => {
               </>
             )}
 
-              {/* Cancelar e Responder */}
+              {/* Responder */}
             <div className="flex justify-center mt-4">
               <div>
                 <button
