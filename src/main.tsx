@@ -11,6 +11,7 @@ import CadastrarQuestao from './routes/cadastrar-questao';
 import HomeProfessor from './routes/home-professor';
 import HomeAluno from './routes/home-aluno';
 import ResponderQuestao from './routes/responder-questao';
+import { AuthProvider } from './context/AuthContext';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 )
