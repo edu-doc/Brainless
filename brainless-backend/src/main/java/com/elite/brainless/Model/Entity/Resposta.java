@@ -30,7 +30,7 @@ public class Resposta {
     @Column(nullable = false)
     private String resp;
 
-    @Column(nullable = false)
+    @Column
     private boolean acerto;
 
     @ManyToOne
