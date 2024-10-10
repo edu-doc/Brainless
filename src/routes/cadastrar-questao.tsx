@@ -16,7 +16,7 @@ const CadastrarQuestao = () => {
     const [alternativaE, setAltE] = useState("");
     const [isPublica, setIsPublica] = useState("true");
     const [resposta, setResposta] = useState("A");
-    const [tipo, setTipo] = useState("Objetiva"); // Estado para controlar o tipo de questão
+    const [tipo, setTipo] = useState("Subjetiva"); // Estado para controlar o tipo de questão
 
     const [isEditing, setIsEditing] = useState(false);
     const [message, setMessage] = useState("");
@@ -32,15 +32,15 @@ const CadastrarQuestao = () => {
             const res = await api.get(`questaoProfessor?id=${params.id}`);
             setEnunciado(res.data.enunciado);
             setTema(res.data.tema[0]);
-            setAltA(res.data.alternativas[0]);
-            setAltB(res.data.alternativas[1]);
-            setAltC(res.data.alternativas[2]);
-            setAltD(res.data.alternativas[3]);
-            setAltE(res.data.alternativas[4]);
+            setAltA(res.data.alternativas[0] || "");
+            setAltB(res.data.alternativas[1] || "");
+            setAltC(res.data.alternativas[2] || "");
+            setAltD(res.data.alternativas[3] || "");
+            setAltE(res.data.alternativas[4] || "");
             setIsPublica(res.data.isPublica);
             setResposta(res.data.resposta);
             setJustificativa(res.data.justificativa);
-            setTipo(res.data.tipo); // Set the type based on fetched data
+            setTipo(res.data.tipo);
           } catch (error) {
             setMessage("Erro ao conectar com o servidor. Tente novamente mais tarde.");
           }
@@ -227,9 +227,9 @@ const CadastrarQuestao = () => {
                       >
                       <option value="A">Alternativa A</option>
                       <option value="B">Alternativa B</option>
-                      <option value="C">Alternativa C</option>
-                      <option value="D">Alternativa D</option>
-                      <option value="E">Alternativa E</option>
+                      {alternativaC && <option value="C">Alternativa C</option>}
+                      {alternativaD && <option value="D">Alternativa D</option>}
+                      {alternativaE && <option value="E">Alternativa E</option>}
                     </select>
                   </div>
                 </div>
