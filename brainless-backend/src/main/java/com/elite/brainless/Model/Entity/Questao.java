@@ -1,17 +1,16 @@
 package com.elite.brainless.Model.Entity;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -59,6 +58,9 @@ public class Questao {
 
     // @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL)
     // private List<Resposta> respostas = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "questoes")
+    private List<Tarefa> tarefas; // Lista de tarefas que incluem esta questão
 
     public Questao(List<String> alternativas, String enunciado, String justificativa, String resposta, List<String> tema, Boolean isPublica) {
         this.alternativas = alternativas;
