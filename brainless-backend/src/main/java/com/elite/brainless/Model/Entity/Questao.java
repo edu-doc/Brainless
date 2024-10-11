@@ -57,8 +57,8 @@ public class Questao {
     @Column(nullable = false)
     private Boolean isPublica;
 
-    @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL)
-    private List<Resposta> respostas = new ArrayList<>();
+    // @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL)
+    // private List<Resposta> respostas = new ArrayList<>();
 
     public Questao(List<String> alternativas, String enunciado, String justificativa, String resposta, List<String> tema, Boolean isPublica) {
         this.alternativas = alternativas;

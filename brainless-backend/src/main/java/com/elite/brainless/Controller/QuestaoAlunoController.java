@@ -38,6 +38,8 @@ public class QuestaoAlunoController {
         
         System.out.println("ID DO USUARIO CHEGANDO: " + data.idUsu());
 
+        System.out.println(data.toString());
+
         if (data.idUsu() == null) {
             throw new IllegalArgumentException("ID de usuario nao pode ser nulo");
         }
