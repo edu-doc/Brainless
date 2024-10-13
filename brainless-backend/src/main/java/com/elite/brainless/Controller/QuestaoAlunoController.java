@@ -64,4 +64,16 @@ public class QuestaoAlunoController {
     public Optional<Questao> searchQuestaoById(@RequestParam Long id) {
         return service2.findById(id);
     }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/verificarResposta")
+    public ResponseEntity<?> verificarResposta(@RequestParam Long questaoId, @RequestParam Long alunoId) {
+        Optional<Resposta> resposta = service.verificarResposta(questaoId, alunoId);
+
+        if (resposta.isPresent()) {
+            return ResponseEntity.ok(resposta.get()); // Retorna a resposta se já foi respondida
+        } else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Resposta ainda não registrada.");
+        }
+    }
 }
