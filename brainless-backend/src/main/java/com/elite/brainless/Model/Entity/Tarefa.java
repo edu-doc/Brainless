@@ -3,6 +3,8 @@ package com.elite.brainless.Model.Entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,9 +35,9 @@ public class Tarefa {
     private LocalDate dataLimite;
     private String tipo;
 
-    @ManyToOne
-    @JoinColumn(name = "turma_id", nullable = false)
-    private Turma turma; // Referência à turma associada
+    // @ManyToOne
+    // @JoinColumn(name = "turma_id", nullable = false)
+    // private Turma turma; // Referência à turma associada
 
     @ManyToMany
     @JoinTable(
@@ -43,6 +45,7 @@ public class Tarefa {
         joinColumns = @JoinColumn(name = "tarefa_id"),
         inverseJoinColumns = @JoinColumn(name = "questao_id")
     )
+    @JsonManagedReference // Lado gerenciador da relação
     private List<Questao> questoes; // Lista de questões associadas à tarefa
 
 }

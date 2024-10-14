@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -60,6 +63,7 @@ public class Questao {
     // private List<Resposta> respostas = new ArrayList<>();
 
     @ManyToMany(mappedBy = "questoes")
+    @JsonBackReference // Lado referente da relação
     private List<Tarefa> tarefas; // Lista de tarefas que incluem esta questão
 
     public Questao(List<String> alternativas, String enunciado, String justificativa, String resposta, List<String> tema, Boolean isPublica) {

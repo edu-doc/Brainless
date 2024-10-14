@@ -25,8 +25,8 @@ public class Turma {
     private Long id;
     private String nome;
 
-    @OneToMany(mappedBy = "turma")
-    private List<Tarefa> tarefas; // Lista de atividades da turma
+    // @OneToMany(mappedBy = "turma")
+    // private List<Tarefa> tarefas; // Lista de atividades da turma
 
     // Getters e setters...
 }
