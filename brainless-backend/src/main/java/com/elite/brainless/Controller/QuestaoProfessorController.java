@@ -30,7 +30,7 @@ public class QuestaoProfessorController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<String> saveQuestao(@RequestBody @Valid Questao data) {
-        Questao questao = new Questao(data.getAlternativas(), data.getEnunciado(), data.getJustificativa(), data.getResposta(), data.getTema(), data.getIsPublica());
+        Questao questao = new Questao(data.getAlternativas(), data.getEnunciado(), data.getJustificativa(), data.getResposta(), data.getTema(), data.getIsPublica(), data.getSemestre(), data.getTurma(), data.getAtividade());
         
         service.createQuestao(questao);
 
@@ -42,7 +42,7 @@ public class QuestaoProfessorController {
     @PutMapping
     public ResponseEntity<String> updateQuest(@RequestBody Questao data) {
         
-        Questao questao = new Questao(data.getAlternativas(), data.getEnunciado(), data.getJustificativa(), data.getResposta(), data.getTema(), data.getIsPublica());
+        Questao questao = new Questao(data.getAlternativas(), data.getEnunciado(), data.getJustificativa(), data.getResposta(), data.getTema(), data.getIsPublica(), data.getSemestre(), data.getTurma(), data.getAtividade());
         
         service.updateQuestao(data.getId(), questao);
 

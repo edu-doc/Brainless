@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { api } from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
+import MaskedInput from '../components/MaskedInput';
 
 
 const Cadastro = () => {
@@ -9,27 +10,36 @@ const Cadastro = () => {
     const [ nome, setNome ] = useState("");
     const [ senha, setSenha ] = useState("");
     const [ cpf, setCpf ] = useState("");
+    const [ isProfessor, setIsProfessor ] = useState("false")
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const [errorMessages, setErrorMessages] = useState<string[]>([]);
     const navigate = useNavigate();
+    
   
     const handleSubmit = async(e: React.FormEvent) => { 
       e.preventDefault();
       setLoading(true);
       setMessage("");
+      setErrorMessages([]); // Limpa as mensagens de erro anteriores
 
       try {
-        const res = await api.post('cadastro', { email, nome, senha, cpf });
+        const res = await api.post('cadastro', { cpf, email, nome, senha, isProfessor });
     
         if (res.status === 201) {
           setMessage("Cadastro realizado com sucesso!");
           navigate("/");
         } else {
           setMessage(res.data.message || "Falha ao realizar o cadastro. Tente novamente.");
+          // Aqui você pode adicionar tratamento se `res.data.errors` existir
+          if (res.data.errors) {
+            setErrorMessages(Object.values(res.data.errors)); // Armazena as mensagens de erro
+          }
         }
       } catch (error: any) {
         if (error.response) {
-          setMessage(error.response.data || "Erro ao processar a requisição.");
+          // Aqui você garante que lida com os erros retornados pelo servidor
+          setErrorMessages(Object.values(error.response.data)); // Ajustado para pegar diretamente
         } else if (error.request) {
           setMessage("Sem resposta do servidor. Verifique sua conexão e tente novamente.");
         } else {
@@ -67,7 +77,7 @@ const Cadastro = () => {
                   type="email"
                   required
                   autoComplete="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   value={email} onChange={e => setEmail( e.target.value)} 
                 />
               </div>
@@ -84,7 +94,7 @@ const Cadastro = () => {
                   type="nome"
                   required
                   autoComplete="nome"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   value={nome} onChange={e => setNome( e.target.value)} 
                 />
               </div>
@@ -103,7 +113,7 @@ const Cadastro = () => {
                   type="password"
                   required
                   autoComplete="current-password"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   value={senha} onChange={e => setSenha( e.target.value)}
                 />
               </div>
@@ -114,15 +124,27 @@ const Cadastro = () => {
                 CPF
               </label>
               <div className="mt-2">
-                <input
-                  id="cpf"
-                  name="cpf"
-                  type="cpf"
+                <MaskedInput value={cpf} onChange={e => setCpf( e.target.value)}/>
+              </div>
+
+            </div>
+
+            <div>
+              <label htmlFor="isProfessor" className="block text-sm font-medium leading-6 text-gray-900">
+                Tipo
+              </label>
+              <div className="mt-2">
+                <select
+                  id="isProfessor"
+                  name="isProfessor"
                   required
-                  autoComplete="cpf"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  value={cpf} onChange={e => setCpf( e.target.value)}
-                />
+                  autoComplete="isProfessor"
+                  className="block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  value={isProfessor} onChange={e => setIsProfessor(e.target.value)}
+                >
+                  <option value="false">Aluno</option>
+                  <option value="true">Professor</option>
+                </select>
               </div>
             </div>
 
@@ -135,11 +157,15 @@ const Cadastro = () => {
               >
                 {loading ? "Enviando..." : "Enviar"}
               </button>
-              {message && (
+              {errorMessages.length > 0 && (
                 <div className="flex items-center justify-center p-3 mt-4 border border-red-600 bg-red-100 text-red-600 rounded-md shadow-md">
-                  <p className="text-sm">{message}</p>
+                  <ul className="list-disc pl-5">
+                    {errorMessages.map((errorMessage, index) => (
+                      <li key={index}   className="text-sm">{errorMessage}</li>
+                    ))}
+                  </ul>
                 </div>
-              )}              
+              )}         
               <hr className='mt-4' />
               <button
                 onClick={() => navigate("/")}

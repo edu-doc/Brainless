@@ -4,14 +4,15 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -56,13 +57,20 @@ public class Questao {
     @Column(nullable = false)
     private Boolean isPublica;
 
-    @OneToOne(mappedBy = "questao", cascade = CascadeType.ALL)
-    private Resposta resp;
+    @Column
+    private String semestre;
 
-    @OneToOne
-    private Usuario usuario;
+    @Column
+    private String turma;
 
-    public Questao(List<String> alternativas, String enunciado, String justificativa, String resposta, List<String> tema, Boolean isPublica) {
+    @Column
+    private String atividade;
+
+    @ManyToMany(mappedBy = "questoes")
+    @JsonBackReference // Lado referente da relação
+    private List<Tarefa> tarefas; // Lista de tarefas que incluem esta questão
+
+    public Questao(List<String> alternativas, String enunciado, String justificativa, String resposta, List<String> tema, Boolean isPublica, String semestre, String turma, String atividade) {
         this.alternativas = alternativas;
         this.enunciado = enunciado;
         this.justificativa = justificativa;
@@ -71,6 +79,9 @@ public class Questao {
         this.isPublica = isPublica;
         LocalDate anoAtual = LocalDate.now();
         this.ano = anoAtual.getYear();
+        this.semestre = semestre;
+        this.turma = turma;
+        this.atividade = atividade;
     }
 
     @Override
@@ -107,6 +118,9 @@ public class Questao {
         sb.append(", enunciado=").append(enunciado);
         sb.append(", justificativa=").append(justificativa);
         sb.append(", resposta=").append(resposta);
+        sb.append(", semestre=").append(semestre);
+        sb.append(", turma=").append(turma);
+        sb.append(", atividade=").append(atividade);
         sb.append('}');
         return sb.toString();
     }

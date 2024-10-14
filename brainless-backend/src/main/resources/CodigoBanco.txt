@@ -1,0 +1,7 @@
+Rode esse dois codigos no banco de dados na parte de sql mesmo, assim que criar o banco pela primeira vez.
+Não precisa ficar inserindo sempre, apenas uma vez desde que você não delete o banco manualmente.
+
+
+
+ALTER TABLE table_resposta DROP CONSTRAINT table_resposta_usuario_id_key;
+ALTER TABLE table_resposta DROP CONSTRAINT table_resposta_questao_id_key;

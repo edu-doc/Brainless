@@ -7,7 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,18 +30,22 @@ public class Resposta {
     @Column(nullable = false)
     private String resp;
 
-    @Column(nullable = false)
+    @Column
     private boolean acerto;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "questao_id", nullable = false)
     private Questao questao;
 
-    public Resposta(String resposta, boolean acerto) {
+    public Resposta(String resposta, boolean acerto, Usuario usuario, Questao questao) {
         this.resp = resposta;
         this.acerto = acerto;
+        this.usuario = usuario;
+        this.questao = questao;
     }
 
     @Override

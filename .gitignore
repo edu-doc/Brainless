@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+brainless-backend/src/main/resources/application.properties
