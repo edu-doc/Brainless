@@ -9,6 +9,6 @@ import com.elite.brainless.Model.Entity.Usuario;
 
 public interface RespostaRepository extends JpaRepository<Resposta, Long> {
 
-    Optional<Resposta> findByUsuarioAndQuestao(Usuario usu, Questao quest);
+    Optional<Resposta> findByUsuarioAndQuestao(Usuario usuario_id, Questao questao_id);
 
 }

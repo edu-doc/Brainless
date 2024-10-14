@@ -45,12 +45,28 @@ public class RespostaService {
         return respostaRepository.findById(id);
     }
 
+    public Optional<Resposta> verificarResposta(@Valid Long questaoId, Long alunoId) {
+        Optional<Usuario> usuario = usuarioRepository.findById(alunoId);
+        Optional<Questao> questao = questaoRepository.findById(questaoId);
+    
+        if (usuario.isEmpty()) {
+            throw new RuntimeException("Nao existe um usuário com esse ID");
+        }
+    
+        if (questao.isEmpty()) {
+            throw new RuntimeException("Nao existe uma questão com esse ID");
+        }
+    
+        return respostaRepository.findByUsuarioAndQuestao(usuario.get(), questao.get());
+    }
+
     public Resposta createResposta(@Valid Resposta resposta) {
         
         Optional<Usuario> existingUsuario = usuarioRepository.findById(resposta.getUsuario().getId());
         Optional<Questao> existingQuestao = questaoRepository.findById(resposta.getQuestao().getId());
         Optional<Resposta> existingResposta = respostaRepository.findByUsuarioAndQuestao(resposta.getUsuario(), resposta.getQuestao());
 
+        
         if (!existingUsuario.isPresent()) {
             throw new RuntimeException("Não existe um usuario com esse id");
         }
