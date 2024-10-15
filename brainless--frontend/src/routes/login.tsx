@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { api } from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import '../style/login.css'
 
 const Login = () => {
@@ -10,6 +11,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
+    const { userId, setUserId } = useAuth();
 
     const isFormValid = () => email.trim() !== "" && senha.trim() !== "";
   
@@ -24,8 +26,11 @@ const Login = () => {
 
           console.log(JSON.stringify(res, null, 2));
           const user = res.data;
+          setUserId(user.id);
+          console.log("userId: " + userId);
           localStorage.setItem('user', JSON.stringify(user)); // <-- isso aqui é importante. guarda o usuario logado no storage, entao sempre que for verificar se é aluno/prof é só pegar de la
           
+          console.log("ID do usuario:", user.id)
           if (user.isProfessor) {
             navigate("/home-professor");
           } else {
@@ -47,6 +52,12 @@ const Login = () => {
     }
   
     };
+
+    useEffect(() => {
+      if (userId) {
+          console.log("User ID from AuthContext:", userId);
+      }
+  }, [userId]);
 
       return (
         <>
