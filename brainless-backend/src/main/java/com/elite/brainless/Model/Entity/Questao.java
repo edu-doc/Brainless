@@ -71,11 +71,14 @@ public class Questao {
     @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL)
     private List<Resposta> respostas;
 
-    @ManyToMany(mappedBy = "questoes")
-    @JsonBackReference // Lado referente da relação
-    private List<Tarefa> tarefas; // Lista de tarefas que incluem esta questão
+    // paulo vitor isso ta comentado pq tava quebrando todo o cadastro de questao
+    // dog
+    // @ManyToMany(mappedBy = "questoes")
+    // @JsonBackReference // Lado referente da relação
+    // private List<Tarefa> tarefas; // Lista de tarefas que incluem esta questão
 
-    public Questao(List<String> alternativas, String enunciado, String justificativa, String resposta, List<String> tema, Boolean isPublica, String semestre, String turma, String atividade) {
+    public Questao(List<String> alternativas, String enunciado, String justificativa, String resposta,
+            List<String> tema, Boolean isPublica, String semestre, String turma, String atividade) {
         this.alternativas = alternativas;
         this.enunciado = enunciado;
         this.justificativa = justificativa;
