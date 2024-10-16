@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { api } from "../utils/axios";
 
 interface Questao {
@@ -19,23 +19,35 @@ const HomeAluno = () => {
   const [questoes, setQuestoes] = useState<Questao[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchQuestoes = useCallback(async () => {
+    setLoading(true);
+    try {
+      // Enviar parâmetros de busca para a API
+      const res = await api.get("/professor", {
+        params: {
+          enunciado: enunciado || undefined, // Só envia se não estiver vazio
+          tema: tema || undefined, // Só envia se não estiver vazio
+        },
+      });
+      setQuestoes(res.data);
+    } catch (error) {
+      console.error("Erro ao buscar questões:", error);
+      setQuestoes([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [enunciado, tema]);
+
+  // UseEffect com debounce para evitar chamadas desnecessárias
   useEffect(() => {
-    const fetchQuestoes = async () => {
-      try {
-        const res = await api.get("/professor");
-        console.log(res.data);
-        setQuestoes(res.data);
-      } catch (error) {
-        console.error("Erro ao buscar questões:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const delayDebounceFn = setTimeout(() => {
+      fetchQuestoes();
+    }, 500); // Espera 500ms após o último caractere digitado para fazer a requisição
 
-    fetchQuestoes();
-  }, []);
+    return () => clearTimeout(delayDebounceFn); // Limpa o timeout anterior se o usuário continuar digitando
+  }, [fetchQuestoes]); // Só refaz a busca quando enunciado ou tema mudarem
 
-  if (loading) return <div>Carregando...</div>;
+  // if (loading) return <div>Carregando...</div>;
 
   return (
     <>

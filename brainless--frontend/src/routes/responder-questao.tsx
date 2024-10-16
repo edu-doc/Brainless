@@ -55,11 +55,10 @@ const ResponderQuestao = () => {
           );
 
           if (verificarResposta.data.resp) {
+            console.log(verificarResposta.data + "estou louco");
+            setResposta(verificarResposta.data.resp);
             setAlternativaSelecionada(verificarResposta.data.resp);
             setSubmitted(true);
-            setResposta(verificarResposta.data.resp);
-          } else {
-            console.log("CHEGOU POHA NENHUMA");
           }
         } catch (error) {
           console.log(error);

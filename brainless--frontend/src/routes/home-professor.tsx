@@ -72,7 +72,7 @@ const HomeProfessor = () => {
     return () => clearTimeout(delayDebounceFn); // Limpa o timeout anterior se o usuário continuar digitando
   }, [fetchQuestoes]); // Só refaz a busca quando enunciado ou tema mudarem
 
-  if (loading) return <div>Carregando...</div>;
+  // if (loading) return <div>Carregando...</div>;
 
   return (
     <>
