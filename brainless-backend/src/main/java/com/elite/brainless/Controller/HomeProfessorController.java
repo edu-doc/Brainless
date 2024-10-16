@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elite.brainless.Model.Entity.QuestaoResponse;
@@ -27,11 +28,26 @@ public class HomeProfessorController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
-    public List<QuestaoResponse> questoes(){
-        List<QuestaoResponse> questList = service.findAll().stream().map(QuestaoResponse::new).toList();
+    public List<QuestaoResponse> questoes(@RequestParam(required = false) String enunciado, @RequestParam(required = false) String tema){
+        // List<QuestaoResponse> questList = service.findAll().stream().map(QuestaoResponse::new).toList();
+
+        System.out.println(tema + " " + enunciado);
+
+        List<QuestaoResponse> questList;
+
+        if (enunciado != null && tema != null) {
+            questList = service.findByEnunciadoContainingAndTemaContaining(enunciado, tema).stream().map(QuestaoResponse::new).toList();
+        } else if (enunciado != null) {
+            questList = service.findByEnunciadoContaining(enunciado).stream().map(QuestaoResponse::new).toList();
+        } else if (tema != null) {
+            questList = service.findByTemaContaining(tema).stream().map(QuestaoResponse::new).toList();
+        } else {
+            questList = service.findAll().stream().map(QuestaoResponse::new).toList();
+        }
 
         return questList;
     }
+
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping

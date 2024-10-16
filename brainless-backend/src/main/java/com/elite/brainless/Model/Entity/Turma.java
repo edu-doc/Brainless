@@ -1,6 +1,5 @@
 package com.elite.brainless.Model.Entity;
 
-import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

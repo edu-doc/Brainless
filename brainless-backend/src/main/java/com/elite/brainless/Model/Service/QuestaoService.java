@@ -1,5 +1,6 @@
 package com.elite.brainless.Model.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,42 @@ public class QuestaoService {
             throw new RuntimeException("Nenhuma questão encontrado");
         }
 
+        return questoes;
+    }
+
+    public List<Questao> findByEnunciadoContainingAndTemaContaining(String enunciado, String tema) {
+        List<Questao> questoes = questRepository.findAll();
+        
+        if (questoes.isEmpty()) {
+            throw new RuntimeException("Nenhuma questão encontrado");
+        }
+        
+        return questoes;
+    }
+
+    public List<Questao> findByEnunciadoContaining(String enunciado) {
+        List<Questao> questoes = questRepository.findByEnunciadoContaining(enunciado);
+        
+        if (questoes.isEmpty()) {
+            throw new RuntimeException("Nenhuma questão encontrado");
+        }
+        
+        return questoes;
+    }
+
+    public List<Questao> findByTemaContaining(String tema) {
+        List<Questao> questoes = questRepository.findByTemaContaining(tema);
+
+        System.out.println("to aqui");
+
+        for (Questao questao : questoes) {
+            System.out.println(questao);
+        }
+        
+        if (questoes.isEmpty()) {
+            throw new RuntimeException("Nenhuma questão encontrado");
+        }
+        
         return questoes;
     }
 
