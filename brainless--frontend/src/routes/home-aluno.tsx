@@ -41,9 +41,6 @@ const HomeAluno = () => {
       <div className="flex flex-col h-full">
         <NavBar />
         <div className="bg-gradient-to-b from-[#007BFF] from-41% to-[#0056B3] to-90% flex flex-1 justify-around">
-          {/* Menu Lateral */}
-          <MenuLateral isProfessor={false}></MenuLateral>
-
           <div className="p-4 w-10/12">
             {" "}
             {/* Ajuste ml-72 para a largura do menu e mt-16 para a altura da barra de navegação */}

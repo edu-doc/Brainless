@@ -3,7 +3,6 @@ import NavBar from "../components/NavBar";
 import ModalDelete from "../components/ModalDelete";
 import { useCallback, useEffect, useState } from "react";
 import { api } from "../utils/axios";
-import MenuLateral from "../components/MenuLateral";
 
 interface Questao {
   id: number;
@@ -78,10 +77,8 @@ const HomeProfessor = () => {
   return (
     <>
       <div className="flex flex-col h-full">
-        <NavBar />
+        <NavBar isProfessor={true} />
         <div className="bg-gradient-to-b from-[#007BFF] from-41% to-[#0056B3] to-90% flex flex-1 justify-around h-5/6">
-          <MenuLateral isProfessor={true}></MenuLateral>
-
           <div className="p-4 w-10/12">
             <main className="flex-1 bg-white h-full rounded-lg shadow-lg p-6">
               <div
@@ -185,7 +182,7 @@ const HomeProfessor = () => {
                             : questao.enunciado}
                         </td>
                         <td className="px-4 py-2 text-left">
-                          {(questao.tema ?? "")}
+                          {questao.tema ?? ""}
                         </td>
                         <td className="px-4 py-2 text-center">{questao.ano}</td>
                         <td className="px-4 py-2 text-center">

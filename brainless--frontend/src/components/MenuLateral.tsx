@@ -43,14 +43,6 @@ const MenuLateral = (props: Props) => {
             ))}
           </ul>
         </div>
-        <div className="">
-          <button
-            className="w-full h-full p-2 rounded-md bg-red-600 font-bold hover:bg-rose-500"
-            onClick={() => navigate("/")}
-          >
-            Sair
-          </button>
-        </div>
       </div>
     </div>
   );
