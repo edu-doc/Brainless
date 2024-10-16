@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -67,6 +68,7 @@ public class Questao {
     @Column
     private String atividade;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL)
     private List<Resposta> respostas;
 

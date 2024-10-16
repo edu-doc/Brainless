@@ -7,7 +7,7 @@ import Alternative from "../components/Alternative";
 import { useAuth } from "../context/AuthContext";
 
 const ResponderQuestao = () => {
-  const [temas, setTema] = useState("");
+  const [tema, setTema] = useState("");
   const [enunciado, setEnunciado] = useState("");
   const [alternativaA, setAltA] = useState("");
   const [alternativaB, setAltB] = useState("");
@@ -35,7 +35,7 @@ const ResponderQuestao = () => {
           const res = await api.get(`questaoAluno?id=${params.id}`);
           console.log(res.data);
           setEnunciado(res.data.enunciado);
-          setTema(res.data.tema[0]);
+          setTema(res.data.tema);
           setAltA(res.data.alternativas[0]);
           setAltB(res.data.alternativas[1]);
           setAltC(res.data.alternativas[2]);
@@ -44,20 +44,23 @@ const ResponderQuestao = () => {
           setResposta(res.data.resposta);
           setJustificativa(res.data.justificativa);
 
-          const verificarResposta = await api.get(`/questaoAluno/verificarResposta`, {
-            params: {
-              alunoId: userId,
-              questaoId: params.id 
+          const verificarResposta = await api.get(
+            `/questaoAluno/verificarResposta`,
+            {
+              params: {
+                alunoId: userId,
+                questaoId: params.id,
+              },
             }
-          })
+          );
 
           if (verificarResposta.data.resp) {
             setAlternativaSelecionada(verificarResposta.data.resp);
             setSubmitted(true);
+            setResposta(verificarResposta.data.resp);
           } else {
-            console.log("CHEGOU POHA NENHUMA")
+            console.log("CHEGOU POHA NENHUMA");
           }
-
         } catch (error) {
           console.log(error);
         }
@@ -83,14 +86,13 @@ const ResponderQuestao = () => {
       return;
     }
 
-    if (!isQuestaoSubjetiva && (alternativaSelecionada === resposta)) {
+    if (!isQuestaoSubjetiva && alternativaSelecionada === resposta) {
       acerto = true;
-      console.log('acertou')
+      console.log("acertou");
     } else {
       acerto = false;
-      console.log('errou')
+      console.log("errou");
     }
-    
 
     setMessage("");
 
@@ -116,14 +118,14 @@ const ResponderQuestao = () => {
       );
 
       await api.post("/questaoAluno", data);
-      
+
       if (!submitted && isQuestaoSubjetiva) {
         setSubmitted(true);
-        setShowSuccessModal(true)
+        setShowSuccessModal(true);
       } else {
         setSubmitted(true);
       }
-      
+
       setMessage("Resposta cadastrada com sucesso.");
     } catch (error) {
       setMessage(
@@ -138,7 +140,7 @@ const ResponderQuestao = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBar isProfessor={false} />
       <div className="flex justify-center p-8 h-5/6 min-h-screen bg-gradient-to-b from-[#007BFF] to-[#0056B3] ">
         <div className="p-8 bg-white w-10/12 rounded-md overflow-auto">
           <form
@@ -179,7 +181,7 @@ const ResponderQuestao = () => {
                   Tema:
                 </label>
                 <p className="text-black text-xl font-semibold border border-color-black rounded p-2">
-                  {temas}
+                  {tema}
                 </p>
               </div>
             </div>
@@ -214,7 +216,7 @@ const ResponderQuestao = () => {
                   id="respostaSubjetiva"
                   className="w-full p-4 border border-black rounded-lg focus:outline-none focus:ring-2 resize-none"
                   style={{ minHeight: "200px" }} // Define uma altura mínima de 200px
-                  value={respostaSubjetiva}
+                  value={resposta}
                   onChange={(e) => setRespostaSubjetiva(e.target.value)}
                   placeholder="Escreva sua resposta aqui..."
                 />
@@ -321,7 +323,6 @@ const ResponderQuestao = () => {
                   </div>
                 </div>
               )}
-
             </div>
           </form>
         </div>

@@ -37,6 +37,7 @@ const Login = () => {
       } else {
         setMessage("Falha ao realizar o login. Tente novamente.");
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response) {
         setMessage("Falha ao realizar o login. Tente novamente.");
