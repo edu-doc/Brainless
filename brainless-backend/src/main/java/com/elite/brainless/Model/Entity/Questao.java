@@ -40,9 +40,8 @@ public class Questao {
     @Column(nullable = false)
     private int ano;
 
-    @ElementCollection
     @Column(nullable = false)
-    private List<String> tema;
+    private String tema;
 
     @Column
     private float aproveitamento;
@@ -78,7 +77,7 @@ public class Questao {
     // private List<Tarefa> tarefas; // Lista de tarefas que incluem esta questão
 
     public Questao(List<String> alternativas, String enunciado, String justificativa, String resposta,
-            List<String> tema, Boolean isPublica, String semestre, String turma, String atividade) {
+            String tema, Boolean isPublica, String semestre, String turma, String atividade) {
         this.alternativas = alternativas;
         this.enunciado = enunciado;
         this.justificativa = justificativa;

@@ -6,7 +6,7 @@ import NavBar from "../components/NavBar";
 
 const CadastrarQuestao = () => {
 
-    const [temas, setTema] = useState("");
+    const [tema, setTema] = useState("");
     const [enunciado, setEnunciado] = useState("");
     const [justificativa, setJustificativa] = useState("");
     const [alternativaA, setAltA] = useState("");
@@ -36,7 +36,7 @@ const CadastrarQuestao = () => {
           try {
             const res = await api.get(`questaoProfessor?id=${params.id}`);
             setEnunciado(res.data.enunciado);
-            setTema(res.data.tema[0]);
+            setTema(res.data.tema);
             setAltA(res.data.alternativas[0] || "");
             setAltB(res.data.alternativas[1] || "");
             setAltC(res.data.alternativas[2] || "");
@@ -66,18 +66,16 @@ const CadastrarQuestao = () => {
       setMessage("");
       try {
         const alternativas = [alternativaA, alternativaB, alternativaC, alternativaD, alternativaE];
-        const tema = [temas];
         let res;
 
         if (isEditing) {
-          res = await api.put('questaoProfessor', { id: params.id, alternativas, enunciado, justificativa, resposta, tema, isPublica, tipo });
+          res = await api.put('questaoProfessor', { id: params.id, alternativas, enunciado, justificativa, resposta, tema, isPublica, tipo, semestre, turma, atividade });
         } else {
-          res = await api.post('questaoProfessor', { alternativas, enunciado, justificativa, resposta, tema, isPublica, tipo });
+          res = await api.post('questaoProfessor', { alternativas, enunciado, justificativa, resposta, tema, isPublica, tipo, semestre, turma, atividade });
         }
 
         if (res.status === 201) {
           setMessage("Questão cadastrada com sucesso!");
-          console.log(alternativas, justificativa)
           navigate("/home-professor");
         } else {
           setMessage(res.data.message || "Falha ao realizar o cadastro. Tente novamente.");
@@ -103,7 +101,7 @@ const CadastrarQuestao = () => {
                   type="text"
                   id="tema"
                   className="w-full p-3 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={temas}
+                  value={tema}
                   onChange={e => setTema(e.target.value)}
                   required
                 />

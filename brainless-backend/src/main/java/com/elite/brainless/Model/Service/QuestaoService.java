@@ -1,5 +1,6 @@
 package com.elite.brainless.Model.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -54,13 +55,10 @@ public class QuestaoService {
     }
 
     public List<Questao> findByTemaContaining(String tema) {
+
+        System.out.println(tema);
+
         List<Questao> questoes = questRepository.findByTemaContaining(tema);
-
-        System.out.println("to aqui");
-
-        for (Questao questao : questoes) {
-            System.out.println(questao);
-        }
         
         if (questoes.isEmpty()) {
             throw new RuntimeException("Nenhuma questão encontrado");
@@ -75,6 +73,10 @@ public class QuestaoService {
 
     public Optional<Questao> findByEnunciado(String enunciado) {
         return questRepository.findByEnunciado(enunciado);
+    }
+
+    public Optional<Questao> findByTema(String tema) {
+        return questRepository.findByTema(tema);
     }
 
     public Questao createQuestao(@Valid Questao quest) {

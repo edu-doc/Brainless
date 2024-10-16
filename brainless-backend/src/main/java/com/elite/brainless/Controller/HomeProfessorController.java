@@ -37,9 +37,9 @@ public class HomeProfessorController {
 
         if (enunciado != null && tema != null) {
             questList = service.findByEnunciadoContainingAndTemaContaining(enunciado, tema).stream().map(QuestaoResponse::new).toList();
-        } else if (enunciado != null) {
+        } else if (enunciado != null && tema == null) {
             questList = service.findByEnunciadoContaining(enunciado).stream().map(QuestaoResponse::new).toList();
-        } else if (tema != null) {
+        } else if (tema != null && enunciado == null) {
             questList = service.findByTemaContaining(tema).stream().map(QuestaoResponse::new).toList();
         } else {
             questList = service.findAll().stream().map(QuestaoResponse::new).toList();

@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import ModalDelete from "../components/ModalDelete";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { api } from "../utils/axios";
 import MenuLateral from "../components/MenuLateral";
 
 interface Questao {
   id: number;
   enunciado: string;
-  tema: string[];
+  tema: string;
   ano: number;
   isPublica: boolean;
 }
@@ -16,6 +16,8 @@ interface Questao {
 const HomeProfessor = () => {
   const navigate = useNavigate();
 
+  const [enunciado, setEnunciado] = useState<string>("");
+  const [tema, setTema] = useState<string>("");
   const [questoes, setQuestoes] = useState<Questao[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,10 +45,16 @@ const HomeProfessor = () => {
     }
   };
 
-  const fetchQuestoes = async () => {
+  const fetchQuestoes = useCallback(async () => {
+    setLoading(true);
     try {
-      const res = await api.get("/professor");
-      // console.log(res.data);
+      // Enviar parâmetros de busca para a API
+      const res = await api.get("/professor", {
+        params: {
+          enunciado: enunciado || undefined, // Só envia se não estiver vazio
+          tema: tema || undefined, // Só envia se não estiver vazio
+        },
+      });
       setQuestoes(res.data);
     } catch (error) {
       console.error("Erro ao buscar questões:", error);
@@ -54,11 +62,16 @@ const HomeProfessor = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [enunciado, tema]);
 
+  // UseEffect com debounce para evitar chamadas desnecessárias
   useEffect(() => {
-    fetchQuestoes();
-  }, []);
+    const delayDebounceFn = setTimeout(() => {
+      fetchQuestoes();
+    }, 500); // Espera 500ms após o último caractere digitado para fazer a requisição
+
+    return () => clearTimeout(delayDebounceFn); // Limpa o timeout anterior se o usuário continuar digitando
+  }, [fetchQuestoes]); // Só refaz a busca quando enunciado ou tema mudarem
 
   if (loading) return <div>Carregando...</div>;
 
@@ -82,6 +95,60 @@ const HomeProfessor = () => {
                 >
                   Cadastrar Questão
                 </button>
+              </div>
+
+              <div className="flex space-x-2">
+                <div className="relative">
+                  <input
+                    type="text"
+                    className="border border-gray-300 rounded-lg px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Buscar Enunciado"
+                    value={enunciado}
+                    onChange={(e) => setEnunciado(e.target.value)}
+                  />
+                  <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <svg
+                      className="w-5 h-5 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1112 4.5a7.5 7.5 0 014.65 12.15z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+
+                <div className="relative mb-2">
+                  <input
+                    type="text"
+                    className="border border-gray-300 rounded-lg px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Buscar Tema"
+                    value={tema}
+                    onChange={(e) => setTema(e.target.value)}
+                  />
+                  <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <svg
+                      className="w-5 h-5 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1112 4.5a7.5 7.5 0 014.65 12.15z"
+                      />
+                    </svg>
+                  </span>
+                </div>
               </div>
 
               <div
@@ -118,7 +185,7 @@ const HomeProfessor = () => {
                             : questao.enunciado}
                         </td>
                         <td className="px-4 py-2 text-left">
-                          {(questao.tema ?? []).join(", ")}
+                          {(questao.tema ?? "")}
                         </td>
                         <td className="px-4 py-2 text-center">{questao.ano}</td>
                         <td className="px-4 py-2 text-center">
