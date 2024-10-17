@@ -1,5 +1,6 @@
 package com.elite.brainless.Model.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +24,9 @@ public class QuestaoService {
 
     public List<Questao> findAll() {
         List<Questao> questoes = questRepository.findAll();
-
         if (questoes.isEmpty()) {
-            throw new RuntimeException("Nenhuma questão encontrado");
+            return Collections.emptyList();
         }
-
         return questoes;
     }
 
