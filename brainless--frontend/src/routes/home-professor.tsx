@@ -21,6 +21,7 @@ const HomeProfessor = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemIdToDelete, setItemIdToDelete] = useState<number | null>(null);
+  const [isEstatistica, setIsEstatistica] = useState(false);
 
   const openModal = (id: number) => {
     setItemIdToDelete(id); // Armazena o id do item a ser excluído
@@ -72,12 +73,15 @@ const HomeProfessor = () => {
     return () => clearTimeout(delayDebounceFn); // Limpa o timeout anterior se o usuário continuar digitando
   }, [fetchQuestoes]); // Só refaz a busca quando enunciado ou tema mudarem
 
-  // if (loading) return <div>Carregando...</div>;
+  const alterarIsEstatistica = () => {
+    setIsEstatistica(!isEstatistica);
+    console.log("is estatistica:" + isEstatistica);
+  }
 
   return (
     <>
       <div className="flex flex-col h-full">
-        <NavBar isProfessor={true} />
+        <NavBar />
         <div className="bg-gradient-to-b from-[#007BFF] from-41% to-[#0056B3] to-90% flex flex-1 justify-around h-5/6">
           <div className="p-4 w-10/12">
             <main className="flex-1 bg-white h-full rounded-lg shadow-lg p-6">
@@ -86,12 +90,20 @@ const HomeProfessor = () => {
                 style={{ height: "10%" }}
               >
                 <h1 className="text-2xl font-bold mb-4">Suas Questões</h1>
-                <button
-                  onClick={() => navigate("/cadastrar-questao")}
-                  className="flex w-2/12 justify-center rounded-md bg-[#0056B3] p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#007BFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Cadastrar Questão
-                </button>
+                <div className="flex gap-x-2"> {/* Adicionado div para agrupar os botões e gap-x-2 */}
+                  <button
+                    onClick={() => alterarIsEstatistica()}
+                    className="flex w-full justify-center rounded-md bg-[#0056B3] p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#007BFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Relatório de Questões
+                  </button>
+                  <button
+                    onClick={() => navigate("/cadastrar-questao")}
+                    className="flex w-full justify-center rounded-md bg-[#0056B3] p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#007BFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Cadastrar <br></br> Questão  
+                  </button>
+                </div>
               </div>
 
               <div className="flex space-x-2">
@@ -158,7 +170,17 @@ const HomeProfessor = () => {
                       <th className="px-4 py-2 text-left">Enunciado</th>
                       <th className="px-4 py-2 text-left">Tema</th>
                       <th className="px-4 py-2 text-center">Ano</th>
-                      <th className="px-4 py-2 text-center">Visibilidade</th>
+                      {!isEstatistica && (
+                            <>
+                              <th className="px-4 py-2 text-center">Visibilidade</th>
+                            </>
+                          )}
+                      {isEstatistica && (
+                        <>
+                          <th className="px-4 py-2 text-center">Total de Respostas</th>
+                          <th className="px-4 py-2 text-center">Aproveitamento</th>
+                        </>
+                      )}
                       <th
                         className="px-4 py-2 text-center"
                         style={{ width: "100px" }}
@@ -185,9 +207,17 @@ const HomeProfessor = () => {
                           {questao.tema ?? ""}
                         </td>
                         <td className="px-4 py-2 text-center">{questao.ano}</td>
-                        <td className="px-4 py-2 text-center">
-                          {questao.isPublica ? "Pública" : "Privada"}
-                        </td>
+                        {!isEstatistica && (
+                            <>
+                              <td className="px-4 py-2 text-center">{questao.isPublica}</td>
+                            </>
+                          )}
+                          {isEstatistica && (
+                            <>
+                              <td className="px-4 py-2 text-center">10000</td>
+                              <td className="px-4 py-2 text-center">83%</td>
+                            </>
+                          )}
                         <td className="px-4 py-2 text-center">
                           <button
                             onClick={() =>
