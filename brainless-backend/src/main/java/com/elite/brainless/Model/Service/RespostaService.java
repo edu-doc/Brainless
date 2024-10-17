@@ -37,7 +37,7 @@ public class RespostaService {
         List<Questao> questoes = questaoRepository.findAll();
 
         return questoes.stream().map(questao -> {
-            long totalAcertos = respostaRepository.countByQuestaoIdAndQuestaoIsSubjetivaFalseAndAcertoTrue(questao.getId());
+            long totalAcertos = respostaRepository.countDistinctUsuariosAcertosByQuestaoId(questao.getId());
             long totalUsuarios = respostaRepository.countDistinctUsuariosByQuestaoId(questao.getId());
 
             return new Relatorio(questao.getId(), totalAcertos, totalUsuarios);

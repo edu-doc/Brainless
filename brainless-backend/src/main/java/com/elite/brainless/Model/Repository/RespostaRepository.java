@@ -14,10 +14,12 @@ public interface RespostaRepository extends JpaRepository<Resposta, Long> {
 
     Optional<Resposta> findByUsuarioAndQuestao(Usuario usuario_id, Questao questao_id);
 
-    long countByQuestaoIdAndQuestaoIsSubjetivaFalseAndAcertoTrue(Long questaoId);
-
-    @Query("SELECT COUNT(DISTINCT r.usuario) FROM Resposta r WHERE r.questao.id = :questaoId AND r.questao.isSubjetiva = false")
+    @Query("SELECT COUNT(DISTINCT r.usuario) FROM Resposta r WHERE r.questao.id = :questaoId AND (r.questao.isSubjetiva = false OR r.questao.isSubjetiva IS NULL)")
     long countDistinctUsuariosByQuestaoId(@Param("questaoId") Long questaoId);
+
+
+    @Query("SELECT COUNT(DISTINCT r.usuario) FROM Resposta r WHERE r.questao.id = :questaoId AND r.acerto = true AND (r.questao.isSubjetiva = false OR r.questao.isSubjetiva IS NULL)")
+    long countDistinctUsuariosAcertosByQuestaoId(@Param("questaoId") Long questaoId);
 
 
 
