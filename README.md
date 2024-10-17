@@ -21,6 +21,7 @@ A mesma questão pode ser utilizada em várias turmas, semestres ou atividades. 
 ## Back end
 - Java
 - SpringBoot
+- PostgreSQL
 
 ## Front end
 - TypeScript
@@ -36,7 +37,7 @@ A mesma questão pode ser utilizada em várias turmas, semestres ou atividades. 
 
 ## Back end
 Pré-requisitos: Java,
-                Postgrel,
+                PostgreSQL,
                 Dependências do maven
 
 # clonar repositório
