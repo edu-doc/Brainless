@@ -6,13 +6,14 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,9 +39,8 @@ public class Questao {
     @Column(nullable = false)
     private int ano;
 
-    @ElementCollection
     @Column(nullable = false)
-    private List<String> tema;
+    private String tema;
 
     @Column
     private float aproveitamento;
@@ -66,11 +66,21 @@ public class Questao {
     @Column
     private String atividade;
 
-    @ManyToMany(mappedBy = "questoes")
-    @JsonBackReference // Lado referente da relação
-    private List<Tarefa> tarefas; // Lista de tarefas que incluem esta questão
+    @Column
+    private Boolean isSubjetiva;
 
-    public Questao(List<String> alternativas, String enunciado, String justificativa, String resposta, List<String> tema, Boolean isPublica, String semestre, String turma, String atividade) {
+    @JsonBackReference
+    @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL)
+    private List<Resposta> respostas;
+
+    // paulo vitor isso ta comentado pq tava quebrando todo o cadastro de questao
+    // dog
+    // @ManyToMany(mappedBy = "questoes")
+    // @JsonBackReference // Lado referente da relação
+    // private List<Tarefa> tarefas; // Lista de tarefas que incluem esta questão
+
+    public Questao(List<String> alternativas, String enunciado, String justificativa, String resposta,
+            String tema, Boolean isPublica, String semestre, String turma, String atividade, Boolean isSubjetiva) {
         this.alternativas = alternativas;
         this.enunciado = enunciado;
         this.justificativa = justificativa;
@@ -82,6 +92,7 @@ public class Questao {
         this.semestre = semestre;
         this.turma = turma;
         this.atividade = atividade;
+        this.isSubjetiva = isSubjetiva;
     }
 
     @Override
@@ -121,6 +132,8 @@ public class Questao {
         sb.append(", semestre=").append(semestre);
         sb.append(", turma=").append(turma);
         sb.append(", atividade=").append(atividade);
+        sb.append(", isSubjetiva=").append(isSubjetiva);
+        sb.append(", isPublica=").append(isPublica);
         sb.append('}');
         return sb.toString();
     }

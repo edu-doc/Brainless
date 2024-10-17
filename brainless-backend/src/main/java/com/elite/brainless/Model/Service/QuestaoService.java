@@ -11,7 +11,6 @@ import com.elite.brainless.Model.Repository.QuestaoRepository;
 
 import jakarta.validation.Valid;
 
-
 @Service
 public class QuestaoService {
 
@@ -32,12 +31,47 @@ public class QuestaoService {
         return questoes;
     }
 
+    public List<Questao> findByEnunciadoContainingAndTemaContaining(String enunciado, String tema) {
+        List<Questao> questoes = questRepository.findAll();
+
+        if (questoes.isEmpty()) {
+            throw new RuntimeException("Nenhuma questão encontrado");
+        }
+
+        return questoes;
+    }
+
+    public List<Questao> findByEnunciadoContaining(String enunciado) {
+        List<Questao> questoes = questRepository.findByEnunciadoContaining(enunciado);
+
+        if (questoes.isEmpty()) {
+            throw new RuntimeException("Nenhuma questão encontrado");
+        }
+
+        return questoes;
+    }
+
+    public List<Questao> findByTemaContaining(String tema) {
+
+        List<Questao> questoes = questRepository.findByTemaContaining(tema);
+
+        if (questoes.isEmpty()) {
+            throw new RuntimeException("Nenhuma questão encontrado");
+        }
+
+        return questoes;
+    }
+
     public Optional<Questao> findById(Long id) {
         return questRepository.findById(id);
     }
 
     public Optional<Questao> findByEnunciado(String enunciado) {
         return questRepository.findByEnunciado(enunciado);
+    }
+
+    public Optional<Questao> findByTema(String tema) {
+        return questRepository.findByTema(tema);
     }
 
     public Questao createQuestao(@Valid Questao quest) {
@@ -68,19 +102,19 @@ public class QuestaoService {
     public Questao updateQuestao(Long id, @Valid Questao questaoAtualizada) {
         // Verifica se a questão com o ID especificado existe
         Optional<Questao> existingQuest = questRepository.findById(id);
-    
+
         if (existingQuest.isEmpty()) {
             throw new RuntimeException("Questão não encontrada");
         }
-    
+
         Questao questaoExistente = existingQuest.get();
-    
+
         // Atualiza os campos da questão existente com os novos valores
         questaoExistente.setEnunciado(questaoAtualizada.getEnunciado());
         questaoExistente.setAlternativas(questaoAtualizada.getAlternativas());
         questaoExistente.setResposta(questaoAtualizada.getResposta());
         // Atualize outros campos conforme necessário
-    
+
         // Salva a questão atualizada no repositório
         return questRepository.save(questaoExistente);
     }

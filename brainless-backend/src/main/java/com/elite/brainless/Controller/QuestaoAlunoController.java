@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.elite.brainless.Model.Entity.Questao;
 import com.elite.brainless.Model.Entity.Resposta;
 import com.elite.brainless.Model.Entity.RespostaResponse;
+import com.elite.brainless.Model.Entity.Usuario;
 import com.elite.brainless.Model.Service.QuestaoService;
 import com.elite.brainless.Model.Service.RespostaService;
 import com.elite.brainless.Model.Service.UsuarioService;
-import com.elite.brainless.Model.Entity.Usuario;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +35,6 @@ public class QuestaoAlunoController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<String> saveResposta(@RequestBody @Valid RespostaResponse data) {
-        
-        System.out.println("ID DO USUARIO CHEGANDO: " + data.idUsu());
-
-        System.out.println(data.toString());
 
         if (data.idUsu() == null) {
             throw new IllegalArgumentException("ID de usuario nao pode ser nulo");

@@ -2,16 +2,18 @@ package com.elite.brainless.Model.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elite.brainless.Model.Entity.Questao;
+import com.elite.brainless.Model.Entity.Relatorio;
 import com.elite.brainless.Model.Entity.Resposta;
 import com.elite.brainless.Model.Entity.Usuario;
+import com.elite.brainless.Model.Repository.QuestaoRepository;
 import com.elite.brainless.Model.Repository.RespostaRepository;
 import com.elite.brainless.Model.Repository.UsuarioRepository;
-import com.elite.brainless.Model.Repository.QuestaoRepository;
 
 import jakarta.validation.Valid;
 
@@ -29,6 +31,17 @@ public class RespostaService {
         this.respostaRepository = respRepo;
         this.usuarioRepository = usuarioRepo;
         this.questaoRepository = questaoRepo;
+    }
+
+    public List<Relatorio> gerarRelatorioTodasQuestoes() {
+        List<Questao> questoes = questaoRepository.findAll();
+
+        return questoes.stream().map(questao -> {
+            long totalAcertos = respostaRepository.countDistinctUsuariosAcertosByQuestaoId(questao.getId());
+            long totalUsuarios = respostaRepository.countDistinctUsuariosByQuestaoId(questao.getId());
+
+            return new Relatorio(questao.getId(), totalAcertos, totalUsuarios);
+        }).collect(Collectors.toList());
     }
 
     public List<Resposta> findAll() {

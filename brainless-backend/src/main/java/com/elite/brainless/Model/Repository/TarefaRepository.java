@@ -14,8 +14,6 @@ public interface TarefaRepository  extends JpaRepository<Tarefa, Long>{
     
     Optional<Tarefa> findByTitulo(String titulo);
 
-    Optional<Tarefa> findById(Long id);
-
 
     @Query("SELECT t.questoes FROM Tarefa t WHERE t.id = :tarefaId")
     List<Questao> findQuestoesByTarefaId(@Param("tarefaId") Long tarefaId);
