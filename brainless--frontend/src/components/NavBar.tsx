@@ -1,11 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import "../style/login.css";
 
-type Props = {
-  isProfessor: boolean;
-};
 
-const NavBar = (props: Props) => {
+const NavBar = () => {
   const navigate = useNavigate();
   return (
     <>
@@ -19,17 +16,6 @@ const NavBar = (props: Props) => {
               alt="Logo"
             />
           </a>
-          {props.isProfessor && (
-            <div className="h-5/6">
-              <a
-                href=""
-                onClick={() => navigate("/")}
-                className="w-full h-full px-8 py-4 flex items-center justify-center	gap-3 rounded-lg shadow-lg text-white bg-blue-600 font-bold hover:bg-blue-500"
-              >
-                Estatísticas
-              </a>
-            </div>
-          )}
         </div>
 
         <div className="w-1/12 h-5/6">
