@@ -50,6 +50,7 @@ public class HomeProfessorController {
         return questList;
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/relatorio")
     public List<Relatorio> gerarRelatorioTodasQuestoes() {
         return respostaService.gerarRelatorioTodasQuestoes();

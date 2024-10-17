@@ -66,6 +66,9 @@ public class Questao {
     @Column
     private String atividade;
 
+    @Column
+    private boolean isSubjetiva;
+
     @JsonBackReference
     @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL)
     private List<Resposta> respostas;
@@ -77,7 +80,7 @@ public class Questao {
     // private List<Tarefa> tarefas; // Lista de tarefas que incluem esta questão
 
     public Questao(List<String> alternativas, String enunciado, String justificativa, String resposta,
-            String tema, Boolean isPublica, String semestre, String turma, String atividade) {
+            String tema, Boolean isPublica, String semestre, String turma, String atividade, Boolean isSubjetiva) {
         this.alternativas = alternativas;
         this.enunciado = enunciado;
         this.justificativa = justificativa;
@@ -89,6 +92,7 @@ public class Questao {
         this.semestre = semestre;
         this.turma = turma;
         this.atividade = atividade;
+        this.isSubjetiva = isSubjetiva;
     }
 
     @Override

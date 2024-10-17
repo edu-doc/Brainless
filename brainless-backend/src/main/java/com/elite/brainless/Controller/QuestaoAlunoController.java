@@ -35,10 +35,6 @@ public class QuestaoAlunoController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<String> saveResposta(@RequestBody @Valid RespostaResponse data) {
-        
-        System.out.println("ID DO USUARIO CHEGANDO: " + data.idUsu());
-
-        System.out.println(data.toString());
 
         if (data.idUsu() == null) {
             throw new IllegalArgumentException("ID de usuario nao pode ser nulo");
@@ -51,7 +47,7 @@ public class QuestaoAlunoController {
         Questao quest = service2.findById(data.idQuest())
                 .orElseThrow(() -> new IllegalArgumentException("Questao nao encontrada"));
 
-        Resposta resp = new Resposta(data.resposta(), data.acerto(), data.isSubjetiva(), usu, quest);
+        Resposta resp = new Resposta(data.resposta(), data.acerto(), usu, quest);
 
         service.createResposta(resp);
 

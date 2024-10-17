@@ -53,8 +53,6 @@ public class QuestaoService {
 
     public List<Questao> findByTemaContaining(String tema) {
 
-        System.out.println(tema);
-
         List<Questao> questoes = questRepository.findByTemaContaining(tema);
 
         if (questoes.isEmpty()) {

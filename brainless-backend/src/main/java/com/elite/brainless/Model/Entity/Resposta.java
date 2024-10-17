@@ -33,9 +33,6 @@ public class Resposta {
     @Column
     private boolean acerto;
 
-    @Column
-    private boolean isSubjetiva;
-
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
@@ -44,10 +41,9 @@ public class Resposta {
     @JoinColumn(name = "questao_id", nullable = false)
     private Questao questao;
 
-    public Resposta(String resposta, boolean acerto, boolean isSubjetiva, Usuario usuario, Questao questao) {
+    public Resposta(String resposta, boolean acerto, Usuario usuario, Questao questao) {
         this.resp = resposta;
         this.acerto = acerto;
-        this.isSubjetiva = isSubjetiva;
         this.usuario = usuario;
         this.questao = questao;
     }
