@@ -132,6 +132,8 @@ public class Questao {
         sb.append(", semestre=").append(semestre);
         sb.append(", turma=").append(turma);
         sb.append(", atividade=").append(atividade);
+        sb.append(", isSubjetiva=").append(isSubjetiva);
+        sb.append(", isPublica=").append(isPublica);
         sb.append('}');
         return sb.toString();
     }

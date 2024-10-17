@@ -12,12 +12,19 @@ interface Questao {
   isPublica: boolean;
 }
 
+interface Relatorio {
+  questaoId: number;
+  totalAcertos: number;
+  totalUsuarios: number;
+}
+
 const HomeProfessor = () => {
   const navigate = useNavigate();
 
   const [enunciado, setEnunciado] = useState<string>("");
   const [tema, setTema] = useState<string>("");
   const [questoes, setQuestoes] = useState<Questao[]>([]);
+  const [relatorio, setRelatorio] = useState<Relatorio[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemIdToDelete, setItemIdToDelete] = useState<number | null>(null);
@@ -56,6 +63,8 @@ const HomeProfessor = () => {
         },
       });
       setQuestoes(res.data);
+      const res_relatorio = await api.get("/professor/relatorio");
+      setRelatorio(res_relatorio.data);
     } catch (error) {
       console.error("Erro ao buscar questões:", error);
       setQuestoes([]);
@@ -76,7 +85,7 @@ const HomeProfessor = () => {
   const alterarIsEstatistica = () => {
     setIsEstatistica(!isEstatistica);
     console.log("is estatistica:" + isEstatistica);
-  }
+  };
 
   return (
     <>
@@ -90,7 +99,9 @@ const HomeProfessor = () => {
                 style={{ height: "10%" }}
               >
                 <h1 className="text-2xl font-bold mb-4">Suas Questões</h1>
-                <div className="flex gap-x-2"> {/* Adicionado div para agrupar os botões e gap-x-2 */}
+                <div className="flex gap-x-2">
+                  {" "}
+                  {/* Adicionado div para agrupar os botões e gap-x-2 */}
                   <button
                     onClick={() => alterarIsEstatistica()}
                     className="flex w-full justify-center rounded-md bg-[#0056B3] p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#007BFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -101,7 +112,7 @@ const HomeProfessor = () => {
                     onClick={() => navigate("/cadastrar-questao")}
                     className="flex w-full justify-center rounded-md bg-[#0056B3] p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#007BFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
-                    Cadastrar <br></br> Questão  
+                    Cadastrar <br></br> Questão
                   </button>
                 </div>
               </div>
@@ -171,14 +182,20 @@ const HomeProfessor = () => {
                       <th className="px-4 py-2 text-left">Tema</th>
                       <th className="px-4 py-2 text-center">Ano</th>
                       {!isEstatistica && (
-                            <>
-                              <th className="px-4 py-2 text-center">Visibilidade</th>
-                            </>
-                          )}
+                        <>
+                          <th className="px-4 py-2 text-center">
+                            Visibilidade
+                          </th>
+                        </>
+                      )}
                       {isEstatistica && (
                         <>
-                          <th className="px-4 py-2 text-center">Total de Respostas</th>
-                          <th className="px-4 py-2 text-center">Aproveitamento</th>
+                          <th className="px-4 py-2 text-center">
+                            Total de Respostas
+                          </th>
+                          <th className="px-4 py-2 text-center">
+                            Aproveitamento
+                          </th>
                         </>
                       )}
                       <th
@@ -196,56 +213,75 @@ const HomeProfessor = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {questoes.map((questao) => (
-                      <tr key={questao.id} className="border-b bg-gray-300">
-                        <td className="px-4 py-2 text-left">
-                          {questao.enunciado.length > 30
-                            ? `${questao.enunciado.substring(0, 27)}...`
-                            : questao.enunciado}
-                        </td>
-                        <td className="px-4 py-2 text-left">
-                          {questao.tema ?? ""}
-                        </td>
-                        <td className="px-4 py-2 text-center">{questao.ano}</td>
-                        {!isEstatistica && (
+                    {questoes.map((questao) => {
+                      const rel = relatorio.find(
+                        (r) => r.questaoId === questao.id
+                      );
+
+                      return (
+                        <tr key={questao.id} className="border-b bg-gray-300">
+                          <td className="px-4 py-2 text-left">
+                            {questao.enunciado.length > 30
+                              ? `${questao.enunciado.substring(0, 27)}...`
+                              : questao.enunciado}
+                          </td>
+                          <td className="px-4 py-2 text-left">
+                            {questao.tema ?? ""}
+                          </td>
+                          <td className="px-4 py-2 text-center">
+                            {questao.ano}
+                          </td>
+                          {!isEstatistica && (
                             <>
-                              <td className="px-4 py-2 text-center">{questao.isPublica}</td>
+                              <td className="px-4 py-2 text-center">
+                                {questao.isPublica ? "Sim" : "Não"}
+                              </td>
                             </>
                           )}
-                          {isEstatistica && (
+                          {isEstatistica && rel && (
                             <>
-                              <td className="px-4 py-2 text-center">10000</td>
-                              <td className="px-4 py-2 text-center">83%</td>
+                              <td className="px-4 py-2 text-center">
+                                {rel.totalUsuarios}
+                              </td>
+                              <td className="px-4 py-2 text-center">
+                                {rel.totalUsuarios > 0
+                                  ? (
+                                      (rel.totalAcertos / rel.totalUsuarios) *
+                                      100
+                                    ).toFixed(2) + "%"
+                                  : "0%"}
+                              </td>
                             </>
                           )}
-                        <td className="px-4 py-2 text-center">
-                          <button
-                            onClick={() =>
-                              navigate(`/editar-questao/${questao.id}`)
-                            }
-                            className="p-2 bg-[#0056B3] w-8 h-8 text-white rounded-md flex items-center justify-center hover:bg-[#007BFF]"
-                          >
-                            <img
-                              src="src/assets/icon-editar.png"
-                              alt="editar"
-                              className="w-full h-full filter invert drop-shadow-md"
-                            />
-                          </button>
-                        </td>
-                        <td className="px-4 py-2 text-center">
-                          <button
-                            onClick={() => openModal(questao.id)}
-                            className="p-2 bg-red-600 w-8 h-8 drop-shadow-md text-white rounded-md flex items-center justify-center hover:bg-red-500"
-                          >
-                            <img
-                              src="src/assets/icon-excluir.png"
-                              alt="excluir"
-                              className="w-full h-full filter invert drop-shadow-md"
-                            />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                          <td className="px-4 py-2 text-center">
+                            <button
+                              onClick={() =>
+                                navigate(`/editar-questao/${questao.id}`)
+                              }
+                              className="p-2 bg-[#0056B3] w-8 h-8 text-white rounded-md flex items-center justify-center hover:bg-[#007BFF]"
+                            >
+                              <img
+                                src="src/assets/icon-editar.png"
+                                alt="editar"
+                                className="w-full h-full filter invert drop-shadow-md"
+                              />
+                            </button>
+                          </td>
+                          <td className="px-4 py-2 text-center">
+                            <button
+                              onClick={() => openModal(questao.id)}
+                              className="p-2 bg-red-600 w-8 h-8 drop-shadow-md text-white rounded-md flex items-center justify-center hover:bg-red-500"
+                            >
+                              <img
+                                src="src/assets/icon-excluir.png"
+                                alt="excluir"
+                                className="w-full h-full filter invert drop-shadow-md"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

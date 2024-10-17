@@ -30,8 +30,11 @@ public class QuestaoProfessorController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<String> saveQuestao(@RequestBody @Valid Questao data) {
+
         Questao questao = new Questao(data.getAlternativas(), data.getEnunciado(), data.getJustificativa(), data.getResposta(), data.getTema(), data.getIsPublica(), data.getSemestre(), data.getTurma(), data.getAtividade(), data.getIsSubjetiva());
         
+        System.out.println(questao.getIsSubjetiva());
+
         service.createQuestao(questao);
 
         return ResponseEntity.status(HttpStatus.CREATED)
