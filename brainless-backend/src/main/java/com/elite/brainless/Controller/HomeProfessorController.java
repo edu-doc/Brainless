@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elite.brainless.Model.Entity.QuestaoResponse;
+import com.elite.brainless.Model.Entity.Relatorio;
 import com.elite.brainless.Model.Service.QuestaoService;
+import com.elite.brainless.Model.Service.RespostaService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +27,9 @@ public class HomeProfessorController {
     
     @Autowired
     private final QuestaoService service;
+
+    @Autowired
+    private RespostaService respostaService;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
@@ -43,6 +48,11 @@ public class HomeProfessorController {
         }
 
         return questList;
+    }
+
+    @GetMapping("/relatorio")
+    public List<Relatorio> gerarRelatorioTodasQuestoes() {
+        return respostaService.gerarRelatorioTodasQuestoes();
     }
 
 

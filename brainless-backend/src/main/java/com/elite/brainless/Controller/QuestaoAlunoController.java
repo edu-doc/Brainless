@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.elite.brainless.Model.Entity.Questao;
 import com.elite.brainless.Model.Entity.Resposta;
 import com.elite.brainless.Model.Entity.RespostaResponse;
+import com.elite.brainless.Model.Entity.Usuario;
 import com.elite.brainless.Model.Service.QuestaoService;
 import com.elite.brainless.Model.Service.RespostaService;
 import com.elite.brainless.Model.Service.UsuarioService;
-import com.elite.brainless.Model.Entity.Usuario;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +51,7 @@ public class QuestaoAlunoController {
         Questao quest = service2.findById(data.idQuest())
                 .orElseThrow(() -> new IllegalArgumentException("Questao nao encontrada"));
 
-        Resposta resp = new Resposta(data.resposta(), data.acerto(), usu, quest);
+        Resposta resp = new Resposta(data.resposta(), data.acerto(), data.isSubjetiva(), usu, quest);
 
         service.createResposta(resp);
 
