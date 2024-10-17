@@ -29,9 +29,6 @@ public class HomeProfessorController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<QuestaoResponse> questoes(@RequestParam(required = false) String enunciado, @RequestParam(required = false) String tema){
-        // List<QuestaoResponse> questList = service.findAll().stream().map(QuestaoResponse::new).toList();
-
-        System.out.println(tema + " " + enunciado);
 
         List<QuestaoResponse> questList;
 
