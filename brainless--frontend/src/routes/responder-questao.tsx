@@ -56,7 +56,7 @@ const ResponderQuestao = () => {
 
           if (verificarResposta.data.resp) {
             console.log(verificarResposta.data + "estou louco");
-            setResposta(verificarResposta.data.resp);
+            setRespostaSubjetiva(verificarResposta.data.resp);
             setAlternativaSelecionada(verificarResposta.data.resp);
             setSubmitted(true);
           }
@@ -215,7 +215,7 @@ const ResponderQuestao = () => {
                   id="respostaSubjetiva"
                   className="w-full p-4 border border-black rounded-lg focus:outline-none focus:ring-2 resize-none"
                   style={{ minHeight: "200px" }} // Define uma altura mínima de 200px
-                  value={resposta}
+                  value={respostaSubjetiva}
                   onChange={(e) => setRespostaSubjetiva(e.target.value)}
                   placeholder="Escreva sua resposta aqui..."
                 />
