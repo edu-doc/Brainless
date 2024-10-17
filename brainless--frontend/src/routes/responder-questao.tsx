@@ -139,7 +139,7 @@ const ResponderQuestao = () => {
 
   return (
     <>
-      <NavBar isProfessor={false} />
+      <NavBar/>
       <div className="flex justify-center p-8 h-5/6 min-h-screen bg-gradient-to-b from-[#007BFF] to-[#0056B3] ">
         <div className="p-8 bg-white w-10/12 rounded-md overflow-auto">
           <form
