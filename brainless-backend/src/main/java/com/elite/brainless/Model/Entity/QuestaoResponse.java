@@ -8,6 +8,6 @@ public record QuestaoResponse(Long id, List<String> alternativas, String enuncia
     public QuestaoResponse(Questao questao) {
         this(questao.getId(), questao.getAlternativas(), questao.getEnunciado(), questao.getJustificativa(),
                 questao.getResposta(), questao.getTema(), questao.getAno(), questao.getIsPublica(),
-                questao.getSemestre(), questao.getTurma(), questao.getAtividade(), questao.isSubjetiva());
+                questao.getSemestre(), questao.getTurma(), questao.getAtividade(), questao.getIsSubjetiva());
     }
 }

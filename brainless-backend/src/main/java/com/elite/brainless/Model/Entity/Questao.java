@@ -67,7 +67,7 @@ public class Questao {
     private String atividade;
 
     @Column
-    private boolean isSubjetiva;
+    private Boolean isSubjetiva;
 
     @JsonBackReference
     @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL)

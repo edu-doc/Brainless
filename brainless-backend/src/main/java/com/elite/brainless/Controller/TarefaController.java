@@ -58,7 +58,7 @@ public class TarefaController {
 
         // Converter para record
         List<QuestaoResponse> questaoRecords = questoesSalvas.stream()
-            .map(q -> new QuestaoResponse(q.getId() , q.getAlternativas(), q.getEnunciado(), q.getJustificativa(), q.getResposta(), q.getTema() , q.getAno(), q.getIsPublica(), q.getSemestre(), q.getTurma(), q.getAtividade(), q.isSubjetiva()))
+            .map(q -> new QuestaoResponse(q.getId() , q.getAlternativas(), q.getEnunciado(), q.getJustificativa(), q.getResposta(), q.getTema() , q.getAno(), q.getIsPublica(), q.getSemestre(), q.getTurma(), q.getAtividade(), q.getIsSubjetiva()))
             .toList();
 
         TarefaResponse tarefaRecord = new TarefaResponse(
